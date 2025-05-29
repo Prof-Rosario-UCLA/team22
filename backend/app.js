@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 // Mount routes
-app.use('/', userRoutes);
+app.use('/user', userRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
