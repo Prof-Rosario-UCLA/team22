@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/node_modules
+package-lock.json
+.env
+firebase_adminsdk.json
+.DS_Store
