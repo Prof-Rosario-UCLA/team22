@@ -16,3 +16,19 @@ export const saveUserHobby = async (uid, hobbyData) => {
     throw new Error(`Invalid hobby data: ${e.message}`);
   }
 }
+
+export const getUserHobbies = async (uid) => {
+  try {
+    const snapShot = await db.collection('users')
+                             .doc(uid)
+                             .collection('hobbies')
+                             .get();
+    const hobbies = snapShot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    return hobbies;
+  } catch (e) {
+    throw new Error(`Error retrieving data for user: ${uid}`);
+  }
+}
