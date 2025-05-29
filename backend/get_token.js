@@ -26,8 +26,8 @@ const auth = getAuth(app);
 
 (async () => {
   try {
-    const email = 'genekung@test.com';
-    const password = '123456';
+    const email = 'test@gmail.com';
+    const password = 'admin12';
 
     const userCred = await signInWithEmailAndPassword(auth, email, password);
     const token = await userCred.user.getIdToken();

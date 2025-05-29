@@ -3,3 +3,4 @@ package-lock.json
 .env
 firebase_adminsdk.json
 .DS_Store
+get_token.js
