@@ -14,24 +14,13 @@ jobs:
         working-directory: backend
 
     env:
-      FIREBASE_CREDENTIALS_PATH: ./firebase-adminsdk-fake.json
+      NODE_ENV: ci
 
     steps:  
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-
-      - name: Create Minimal Firebase Admin Credential
-        run: |
-          echo '{
-            "type": "service_account",
-            "project_id": "dummy-project",
-            "private_key_id": "dummy",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nFAKEKEY\n-----END PRIVATE KEY-----\n",
-            "client_email": "fake@dummy.iam.gserviceaccount.com",
-            "client_id": "1234567890"
-          }' > firebase-adminsdk-fake.json
 
       - name: Install Backend Dependencies
         run: npm install
