@@ -13,11 +13,17 @@ jobs:
       run:
         working-directory: backend
 
+    env:
+      FIREBASE_CREDENTIALS_PATH: ./firebase-adminsdk-fake.json
+
     steps:  
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 20
+
+      - name: Create Dummy Firebase Credential File
+        run: echo '{}' > firebase-adminsdk-fake.json
 
       - name: Install Backend Dependencies
         run: npm install
