@@ -1,5 +1,4 @@
 import { VertexAI } from '@google-cloud/vertexai';
-import { HobbySchema } from '../models/Hobby.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
