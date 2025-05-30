@@ -17,6 +17,7 @@ export const generateNewHobby = async (currentUserHobbies) => {
         return `- ${name} (${category}, ${difficulty}, ${progress}% progress, ${completed})`;
     });
 
+    // TODO: change prompt to fit hobby schema so it can easily be posted if the user choosese to save the suggested hobby
     const prompt = `Suggest 1 new hobby for someone who has these hobbies: \n${hobbyDescriptions.join('\n')}`;
     const result = await model.generateContent({
     contents: [
