@@ -6,6 +6,7 @@ dotenv.config();
 
 let db = null;
 
+// CI action skips initializing Firebase
 if (process.env.NODE_ENV !== 'ci') {
   // Firebase Admin Initialization
   admin.initializeApp({
