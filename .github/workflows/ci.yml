@@ -22,8 +22,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Create Dummy Firebase Credential File
-        run: echo '{}' > firebase-adminsdk-fake.json
+      - name: Create Minimal Firebase Admin Credential
+        run: |
+          echo '{
+            "type": "service_account",
+            "project_id": "dummy-project",
+            "private_key_id": "dummy",
+            "private_key": "-----BEGIN PRIVATE KEY-----\\nFAKEKEY\\n-----END PRIVATE KEY-----\\n",
+            "client_email": "fake@dummy.iam.gserviceaccount.com",
+            "client_id": "1234567890"
+          }' > firebase-adminsdk-fake.json
 
       - name: Install Backend Dependencies
         run: npm install
