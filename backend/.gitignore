@@ -4,3 +4,4 @@ package-lock.json
 firebase_adminsdk.json
 .DS_Store
 get_token.js
+gemini.json
