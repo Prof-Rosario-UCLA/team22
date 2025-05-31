@@ -1,6 +1,6 @@
 import express from 'express';
 import authenticate from '../middleware/auth.js';
-import { getUserHobbies, saveUserHobby } from '../services/userService.js';
+import { getUserHobbies, saveUserHobby } from '../services/firestoreService.js';
 import { generateNewHobby } from '../services/geminiService.js';
 import { cacheUserHooby, getCachedUserHobbies } from '../services/redisService.js';
 
