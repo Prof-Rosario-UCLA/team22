@@ -10,7 +10,7 @@ app.use(express.json());
 // Mount routes
 app.use('/user', userRoutes);
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+const PORT_DEV = process.env.PORT_DEV;
+app.listen(PORT_DEV, () => {
+  console.log(`Server is running at http://localhost:${PORT_DEV}`);
 });
