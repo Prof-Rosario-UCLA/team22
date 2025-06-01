@@ -13,10 +13,6 @@ jobs:
       run:
         working-directory: backend
 
-    env:
-      NODE_ENV: ci
-      PORT: 8080
-
     services:
       redis:
         image: redis
@@ -27,6 +23,10 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          
+    env:
+      NODE_ENV: ci
+      PORT: 8080
 
     steps:  
       - uses: actions/checkout@v3
