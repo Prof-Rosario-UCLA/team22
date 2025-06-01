@@ -3,13 +3,13 @@ import { useState } from "react";
 // import viteLogo from "/vite.svg";
 import "./App.css";
 import { useAuth } from "./contexts/AuthContext.tsx"; // Importing the useAuth hook
-import SignInPage from "./components/signIn.tsx";
+import SignInPage from "./components/signInPage.tsx";
 
 function App() {
   const [count, setCount] = useState(0);
 
   // Adding checking for authentiation state
-  const { currentUser, loading } = useAuth();
+  const { loading } = useAuth();
   if (loading) {
     return <div>Loading...</div>;
   }
