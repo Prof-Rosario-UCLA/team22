@@ -10,7 +10,7 @@ app.use(express.json());
 // Mount routes
 app.use('/user', userRoutes);
 
-const PORT_DEV = process.env.PORT_DEV;
+const PORT_DEV = process.env.PORT_DEV || 8080;
 app.listen(PORT_DEV, () => {
   console.log(`Server is running at http://localhost:${PORT_DEV}`);
 });
