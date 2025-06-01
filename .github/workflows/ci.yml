@@ -9,10 +9,14 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-latest
+    env:
+      REDIS_URL: redis://localhost:6379
+      NODE_ENV: ci
+      PORT: 8080
     defaults:
       run:
         working-directory: backend
-        
+
     services:
       redis:
         image: redis
@@ -23,11 +27,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
-    env:
-      REDIS_URL: redis://localhost:6379
-      NODE_ENV: ci
-      PORT: 8080
 
     steps:  
       - uses: actions/checkout@v3
