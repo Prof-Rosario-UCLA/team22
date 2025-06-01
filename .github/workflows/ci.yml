@@ -12,8 +12,20 @@ jobs:
     defaults:
       run:
         working-directory: backend
+        
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     env:
+      REDIS_URL: redis://localhost:6379
       NODE_ENV: ci
       PORT: 8080
 
