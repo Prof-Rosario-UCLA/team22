@@ -24,8 +24,7 @@ jobs:
     env:
       REDIS_URL: redis://localhost:6379
       PORT: 8080
-      FIREBASE_CREDENTIALS_PATH: ./your-key.json
-
+      
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -39,7 +38,7 @@ jobs:
       - name: Run Server
         run: timeout 10s npm start
         working-directory: backend
-        
+
   frontend:
     runs-on: ubuntu-latest
     defaults:
