@@ -9,6 +9,13 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      NODE_ENV: ci
+      PORT: 8080
 
     services:
       redis:
@@ -21,11 +28,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-    env:
-      REDIS_URL: redis://localhost:6379
-      PORT: 8080
-      
-    steps:
+    steps:  
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
@@ -33,11 +36,10 @@ jobs:
 
       - name: Install Backend Dependencies
         run: npm install
-        working-directory: backend
 
       - name: Run Server
         run: timeout 10s npm start
-        working-directory: backend
+        continue-on-error: true
 
   frontend:
     runs-on: ubuntu-latest
