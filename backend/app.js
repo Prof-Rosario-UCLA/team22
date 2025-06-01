@@ -7,6 +7,8 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+// TODO configure cores
+
 // Mount routes
 app.use('/user', userRoutes);
 
