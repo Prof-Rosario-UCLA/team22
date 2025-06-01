@@ -23,7 +23,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          
+
     env:
       NODE_ENV: ci
       PORT: 8080
@@ -38,8 +38,12 @@ jobs:
         run: npm install
 
       - name: Run Server
-        run: timeout 10s npm start
-        continue-on-error: true
+        run: |
+          npm start &
+          SERVER_PID=$!
+          sleep 10
+          kill -SIGINT $SERVER_PID
+          wait $SERVER_PID
 
   frontend:
     runs-on: ubuntu-latest
