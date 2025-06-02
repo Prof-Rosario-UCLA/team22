@@ -5,10 +5,9 @@ import {
   createUserWithEmailAndPassword,
   //   signOut as firebaseSignOut,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 
 import { auth, googleProvider } from "../firebaseConfig";
-import { useAuth } from "../contexts/AuthContext";
+// import { useAuth } from "../contexts/AuthContext";
 
 function SignInPage() {
   // const { currentUser, idToken } = useAuth();
@@ -18,7 +17,10 @@ function SignInPage() {
   const [signUpPassword, setSignUpPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+<<<<<<< HEAD:frontend/src/components/signInPage.tsx
   const navigate = useNavigate();
+=======
+>>>>>>> parent of 6b65b6f (Added tailwind, added react router: redirection on successful login with google):frontend/src/components/signIn.tsx
 
   const handleSignInWithGoogle = async () => {
     setError(null);
@@ -26,7 +28,10 @@ function SignInPage() {
     try {
       await signInWithPopup(auth, googleProvider);
       setMessage("Sign in with Google successful!");
+<<<<<<< HEAD:frontend/src/components/signInPage.tsx
       navigate("/dashboard");
+=======
+>>>>>>> parent of 6b65b6f (Added tailwind, added react router: redirection on successful login with google):frontend/src/components/signIn.tsx
     } catch (error) {
       console.error("Error signing in with Google:", error);
       setError("Failed to sign in with Google. Please try again.");
