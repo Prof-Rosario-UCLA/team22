@@ -3,11 +3,12 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  //   signOut as firebaseSignOut,
 } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { signOut as firebaseSignOut } from "firebase/auth";
 
 import { auth, googleProvider } from "../firebaseConfig";
-// import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 function SignInPage() {
   // const { currentUser, idToken } = useAuth();
@@ -17,21 +18,25 @@ function SignInPage() {
   const [signUpPassword, setSignUpPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-<<<<<<< HEAD:frontend/src/components/signInPage.tsx
+
   const navigate = useNavigate();
-=======
->>>>>>> parent of 6b65b6f (Added tailwind, added react router: redirection on successful login with google):frontend/src/components/signIn.tsx
+
+  const { login } = useAuth();
 
   const handleSignInWithGoogle = async () => {
     setError(null);
     setMessage(null);
     try {
-      await signInWithPopup(auth, googleProvider);
+      // Save the token and userId in the AuthContext
+      // Saves to the context and localStorage
+      const userCred = await signInWithPopup(auth, googleProvider);
+      const user = userCred.user;
+      const token = await user.getIdToken();
+      const userId = user.uid;
+      // const email = user.email; ** Could add to get user email if needed **
+      login(token, userId);
       setMessage("Sign in with Google successful!");
-<<<<<<< HEAD:frontend/src/components/signInPage.tsx
       navigate("/dashboard");
-=======
->>>>>>> parent of 6b65b6f (Added tailwind, added react router: redirection on successful login with google):frontend/src/components/signIn.tsx
     } catch (error) {
       console.error("Error signing in with Google:", error);
       setError("Failed to sign in with Google. Please try again.");
@@ -43,7 +48,17 @@ function SignInPage() {
     setMessage(null);
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, signInEmail, signInPassword);
+      // Save the token and userId in the AuthContext
+      // Saves to the context and localStorage
+      const userCred = await signInWithEmailAndPassword(
+        auth,
+        signInEmail,
+        signInPassword
+      );
+      const user = userCred.user;
+      const token = await user.getIdToken();
+      const userId = user.uid;
+      login(token, userId);
       setMessage("Sign in successful!");
       navigate("/dashboard");
       setSignInEmail("");
@@ -69,13 +84,13 @@ function SignInPage() {
     }
   };
 
-  //   const handleSignOut = async () => {
-  //     try {
-  //       await firebaseSignOut(auth);
-  //     } catch (error) {
-  //       console.error("Error signing out:", error);
-  //     }
-  //   };
+  const handleSignOut = async () => {
+    try {
+      await firebaseSignOut(auth);
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   return (
     <div>

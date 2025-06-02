@@ -4,21 +4,21 @@ import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-    const { currentUser } = useAuth();
-    const navigate = useNavigate();
+  const { userId, token } = useAuth();
+  const navigate = useNavigate();
 
-    const handleSignOut = async () => {
-        await signOut(auth);
-        navigate("/");
-    }
+  const handleSignOut = async () => {
+    await signOut(auth);
+    navigate("/");
+  };
 
-    return (
-        <div> 
-            <h1>Welcome, {currentUser?.email}</h1>
-            <p>User ID: {currentUser?.uid}</p>
-            <button onClick={handleSignOut}>Sign Out</button>
-        </div>
-    )
+  return (
+    <div>
+      <h1>Welcome userId: {userId}</h1>
+      <p>User token: {token}</p>
+      <button onClick={handleSignOut}>Sign Out</button>
+    </div>
+  );
 }
 
 export default Dashboard;
