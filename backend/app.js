@@ -1,13 +1,19 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
-app.use(express.json());
 
 // TODO configure cores
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true, // Optional: needed if you're sending cookies or auth headers
+}));
+
+app.use(express.json());
 
 // Mount routes
 app.use('/user', userRoutes);
