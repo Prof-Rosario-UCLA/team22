@@ -18,25 +18,15 @@ function SignInPage() {
   const [signUpPassword, setSignUpPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSignInWithGoogle = async () => {
     setError(null);
     setMessage(null);
     try {
-      const userCredential = await signInWithPopup(auth, googleProvider);
-      if (userCredential) {
-        const idToken = await userCredential.user.getIdToken();
-        const userId = userCredential.user.uid;
-        login(userId, idToken);
-        setMessage("Sign in with Google successful!");
-        // Redirect to the home page or dashboard
-
-        navigate("/dashboard");
-      } else {
-        setMessage("Sign in with Google failed. Please try again.");
-      }
+      await signInWithPopup(auth, googleProvider);
+      setMessage("Sign in with Google successful!");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error signing in with Google:", error);
       setError("Failed to sign in with Google. Please try again.");
@@ -50,6 +40,7 @@ function SignInPage() {
     try {
       await signInWithEmailAndPassword(auth, signInEmail, signInPassword);
       setMessage("Sign in successful!");
+      navigate("/dashboard");
       setSignInEmail("");
       setSignInPassword("");
     } catch (error) {
