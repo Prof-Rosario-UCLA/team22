@@ -3,7 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import HobbyCard, { type Hobby } from "./HobbyCard";
+import HobbyCard from "./HobbyCard";
 import HobbyForm from "./HobbyForm";
 import axios from "axios";
 import type HobbySchema from "../schemas/hobbySchema";
@@ -12,7 +12,7 @@ function Dashboard() {
   const { userId, token } = useAuth();
   const navigate = useNavigate();
 
-  const [hobbies, setHobbies] = useState<Hobby[]>([]);
+  const [hobbies, setHobbies] = useState<HobbySchema[]>([]);
   const [isLoadingHobbies, setIsLoadingHobbies] = useState(true);
   const [hobbiesError, setHobbiesError] = useState<string | null>(null);
   const [showHobbyForm, setShowHobbyForm] = useState(false);
