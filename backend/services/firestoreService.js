@@ -12,7 +12,11 @@ export const saveUserHobby = async (uid, hobbyData) => {
                            .doc(uid)
                            .collection('hobbies')
                            .add(hobbyWithMetaData);
-    return docRef.id;
+    const docSnap = await docRef.get();
+    return {
+      id: docRef.id,
+      ...docSnap.data()
+    };
   } catch (e) {
     throw new Error(`Invalid hobby data: ${e.message}`);
   }

@@ -88,7 +88,6 @@ function Dashboard() {
   }, [token]); // Re-fetch hobbies if the token changes
 
   const handleSaveHobby = async (newHobby: HobbySchema) => {
-    const tempId = Date.now().toString();
     // If no token, don't attempt to save
     if (!token) {
       console.error("No token found, cannot save hobby.");
@@ -104,45 +103,17 @@ function Dashboard() {
         proofUrl:
           newHobby.proofUrl?.trim() === "" ? undefined : newHobby.proofUrl,
       };
-      console.log("Saving hobby with payload:", payload);
-      // Temporarily assign an ID to the new hobby
-      const hobbyWithTempId = { ...payload, id: tempId };
-      // Optimistically update the UI with the new hobby
-      setHobbies((prevHobbies) => [...prevHobbies, hobbyWithTempId]);
-      setShowHobbyForm(false);
 
-      await axios.post(saveHobbyRoute, payload, {
+      const postedHobby = await axios.post(saveHobbyRoute, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
 
-      // Re-fetch to get the actual IDs
-      const fetchUrl = backendUrl + "/user/hobbies";
-      const response = await axios.get(fetchUrl, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      const savedHobbyFromServer: HobbySchema[] = response.data;
-      console.log("Saved hobby from server:", savedHobbyFromServer);
-      const index = savedHobbyFromServer.findIndex(
-        (hobby) =>
-          hobby.name === payload.name && hobby.category === payload.category
-      );
-      setHobbies((prevHobbies) =>
-        prevHobbies.map((hobby) =>
-          hobby.id === tempId ? savedHobbyFromServer[index] : hobby
-        )
-      );
+      setHobbies((prevHobbies) => [...prevHobbies, postedHobby.data]);
     } catch (err: any) {
       console.error("Error saving hobby:", err); // Log the full error for debugging
-      // If the API call fails, revert the optimistic update
-      setHobbies((prevHobbies) =>
-        prevHobbies.filter((hobby) => hobby.id !== tempId)
-      );
     } finally {
       setShowHobbyForm(false);
     }
