@@ -47,13 +47,13 @@ function Dashboard() {
         // Axios automatically parses the JSON response, data is in response.data
         const userData = response.data;
         console.log("Fetched user data:", userData);
-        console.log("Fetched hobbies:", userData.hobbies);
+        console.log("Fetched hobbies:", userData);
         console.log(
           "Is userData.hobbies an array?",
-          Array.isArray(userData.hobbies)
+          Array.isArray(userData)
         );
 
-        setHobbies(userData.hobbies || []);
+        setHobbies(userData || []);
       } catch (err: any) {
         // Axios error handling
         if (axios.isAxiosError(err)) {
