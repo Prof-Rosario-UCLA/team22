@@ -216,7 +216,7 @@ function Dashboard() {
         >
           {isGeminiLoading
             ? "Connecting to Gemini..."
-            : "Connect to Gemini Route"}
+            : "Get AI Hobby Suggestion"}
         </button>
         {geminiResponse && (
           <div className="mt-4 p-4 bg-gray-700 rounded text-teal-300">
