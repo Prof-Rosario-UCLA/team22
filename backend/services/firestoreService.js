@@ -33,6 +33,19 @@ export const getUserHobbies = async (uid) => {
   }
 }
 
+export const getUserHobbyById = async (uid, hobbyId) => {
+  try {
+    const doc = await db.collection('users')
+            .doc(uid)
+            .collection('hobbies')
+            .doc(hobbyId)
+            .get();
+    return { id: doc.id, ...doc.data() };
+  } catch (e) {
+    throw new Error(`Error retrieving data for user: ${uid}`);
+  }
+}
+
 export const deleteUserHobby = async (uid, hobbyId) => {
   try {
     await db.collection('users')

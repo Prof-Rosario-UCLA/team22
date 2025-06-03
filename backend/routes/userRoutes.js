@@ -3,7 +3,8 @@ import authenticate from "../middleware/auth.js";
 import { getUserHobbies, 
   saveUserHobby, 
   deleteUserHobby,
-  updateUserHobby 
+  updateUserHobby, 
+  getUserHobbyById
 } from "../services/firestoreService.js";
 import { generateNewHobby } from "../services/geminiService.js";
 import {
@@ -34,6 +35,19 @@ router.get("/hobbies", authenticate, async (req, res) => {
   } catch (e) {
     console.log("Failed to fetch hobbies: " + e.message);
     res.status(500).json({ error: "Failed to fetch hobbies: " + e.message });
+  }
+});
+
+router.get("/hobby/:hobbyId", authenticate, async(req, res) => {
+  const { hobbyId } = req.params;
+  console.log(`Hitting /user/hobby/${hobbyId}`);
+  try {
+    const userId = req.user.uid;
+    const hobby = await getUserHobbyById(userId, hobbyId);
+    res.status(200).json(hobby);
+  } catch (e) {
+    console.log(`Failed to fetch hobby ${hobbyId}: ` + e.message);
+    res.status(500).json({ error: `Failed to fetch hobby ${hobbyId}: ` + e.message });
   }
 });
 
