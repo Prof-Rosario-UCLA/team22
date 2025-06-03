@@ -1,6 +1,6 @@
 import express from "express";
 import authenticate from "../middleware/auth.js";
-import { getUserHobbies, saveUserHobby } from "../services/firestoreService.js";
+import { getUserHobbies, saveUserHobby, deleteUserHobby } from "../services/firestoreService.js";
 import { generateNewHobby } from "../services/geminiService.js";
 import {
   cacheUserHooby,
@@ -30,6 +30,19 @@ router.get("/hobbies", authenticate, async (req, res) => {
   } catch (e) {
     console.log("Failed to fetch hobbies: " + e.message);
     res.status(500).json({ error: "Failed to fetch hobbies: " + e.message });
+  }
+});
+
+router.delete("/delete-hobby/:hobbyId", authenticate, async (req, res) => {
+  const { hobbyId } = req.params;
+  console.log(`Hitting /user/delete-hobby/${hobbyId}`);
+  try {
+    const userId = req.user.uid;
+    await deleteUserHobby(userId, hobbyId);
+    res.status(200).json({ message: "Hobby deleted successfully." });
+  } catch (e) {
+    console.error("Error deleting hobby:", e.message);
+    res.status(500).json({ error: "Failed to delete hobby: " + e.message });
   }
 });
 

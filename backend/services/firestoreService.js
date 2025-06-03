@@ -32,3 +32,15 @@ export const getUserHobbies = async (uid) => {
     throw new Error(`Error retrieving data for user: ${uid}`);
   }
 }
+
+export const deleteUserHobby = async (uid, hobbyId) => {
+  try {
+    await db.collection('users')
+            .doc(uid)
+            .collection('hobbies')
+            .doc(hobbyId)
+            .delete();
+  } catch (e) {
+    throw new Error(`Failed to delete hobby: ${e.message}`);
+  }
+}
