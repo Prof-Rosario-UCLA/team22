@@ -8,10 +8,11 @@ export const saveUserHobby = async (uid, hobbyData) => {
       ...parsedHobby,
       createdAt: new Date(),
     };
-    await db.collection('users')
-            .doc(uid)
-            .collection('hobbies')
-            .add(hobbyWithMetaData);
+    const docRef = await db.collection('users')
+                           .doc(uid)
+                           .collection('hobbies')
+                           .add(hobbyWithMetaData);
+    return docRef.id;
   } catch (e) {
     throw new Error(`Invalid hobby data: ${e.message}`);
   }

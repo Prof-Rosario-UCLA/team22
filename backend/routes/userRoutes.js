@@ -19,8 +19,8 @@ router.post("/save-Hobby", authenticate, async (req, res) => {
   try {
     const userId = req.user.uid;
     const hobbyData = req.body;
-    await saveUserHobby(userId, hobbyData);
-    res.status(201).json({ message: "User data stored successfully." });
+    const hobbyId = await saveUserHobby(userId, hobbyData);
+    res.status(201).json(hobbyId);
   } catch (e) {
     console.log("Error posting hobby: " + e.message);
     res.status(500).json({ error: e.message });
