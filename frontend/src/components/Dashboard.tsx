@@ -119,6 +119,24 @@ function Dashboard() {
     }
   };
 
+  const handleDeleteHobby = async (hobbyId: string) => {
+    try {
+      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      const deleteUrl = `${backendUrl}/user/delete-hobby/${hobbyId}`;
+      await axios.delete(deleteUrl, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      setHobbies((prevHobbies) => prevHobbies.filter((hobby) => hobby.id !== hobbyId));
+    } catch (error) {
+      console.error("Error deleting hobby:", error);
+      alert("Failed to delete hobby.");
+    }
+  };
+
   const handleGeminiRequest = async () => {
     if (!token) {
       setGeminiError("You are not authenticated.");
@@ -258,7 +276,7 @@ function Dashboard() {
         {!isLoadingHobbies && !hobbiesError && hobbies.length > 0 && (
           <div className="hobbies-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {hobbies.map((hobby) => (
-              <HobbyCard key={hobby.id} hobby={hobby} />
+              <HobbyCard key={hobby.id} hobby={hobby} onDelete={handleDeleteHobby}/>
             ))}
           </div>
         )}
