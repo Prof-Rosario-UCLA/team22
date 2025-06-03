@@ -23,18 +23,7 @@ router.post("/save-Hobby", authenticate, async (req, res) => {
 router.get("/hobbies", authenticate, async (req, res) => {
   try {
     const userHobbies = await getUserHobbies(req.user.uid);
-    const hobbiesFromDB = userHobbies;
-    let hobbiesArray = [];
-    if (
-      hobbiesFromDB &&
-      typeof hobbiesFromDB === "object" &&
-      !Array.isArray(hobbiesFromDB)
-    ) {
-      hobbiesArray = Object.values(hobbiesFromDB);
-    } else if (Array.isArray(hobbiesFromDB)) {
-      hobbiesArray = hobbiesFromDB;
-    }
-    res.status(200).json({ hobbies: hobbiesArray });
+    res.status(200).json(userHobbies);
   } catch (e) {
     res.status(500).json({ error: "Failed to fetch hobbies: " + e.message });
   }
