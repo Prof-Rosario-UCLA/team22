@@ -15,7 +15,7 @@ const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({
 }) => {
   if (!suggestion) return null;
 
-  // ADD: Handle saving the hobby suggestion
+  // Handle saving the hobby suggestion
   const handleSaveHobby = () => {
     const hobbyToSave: HobbySchema = {
       name: suggestion.name,
@@ -23,7 +23,7 @@ const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({
       difficulty: suggestion.difficulty,
       progress: 0, // Default progress
       completed: false, // Default completed status
-      proofUrl: "", // Optional field, can be left empty initially
+      proofUrl: "",
     };
     saveHobby(hobbyToSave);
   };
