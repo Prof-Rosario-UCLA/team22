@@ -128,6 +128,8 @@ function Dashboard() {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("Gemini response:", response.data);
+      setGeminiResponse(response.data);
     } catch (err: any) {
       // Axios error handling
       if (axios.isAxiosError(err)) {
