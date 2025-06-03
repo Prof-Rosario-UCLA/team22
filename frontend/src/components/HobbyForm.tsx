@@ -26,7 +26,7 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
         [name]: value,
       }));
   };
-  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave({ ...form, progress: Number(form.progress) });
@@ -83,17 +83,6 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
               max={100}
               className="w-full border border-gray-300 rounded px-3 py-2 text-black"
             />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              name="completed"
-              checked={form.completed}
-              onChange={handleChange}
-              className="accent-blue-500"
-            />
-            <label className="text-sm text-gray-700">Completed</label>
           </div>
 
           <div> 
