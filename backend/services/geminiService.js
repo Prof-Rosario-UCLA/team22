@@ -18,7 +18,8 @@ export const generateNewHobby = async (currentUserHobbies) => {
   However, ignore the progress, completed and proofUrl fields, but fill in the name, category, and difficulty fields. 
   Include only a short description of this hobby as well, that is under 20 words. Add it to a field in the return JSON object called: "description".
   Also include an estimated percentage match field, called "matchPercentage", which should be a number between 0 and 100, indicating how well the suggested hobby fits the user's interests. 
-  The response should be a valid JSON object with the following fields: name, category, difficulty, matchPercentage, description.`;
+  The response should be a valid JSON object with the following fields: name, category, difficulty, matchPercentage, description. 
+  Do not include the markdown code block in the repomse. Do not include the markdown fencing. Only return the raw JSON object.`;
   const result = await model.generateContent({
     contents: [
       {

@@ -7,6 +7,8 @@ import HobbyCard from "./HobbyCard";
 import HobbyForm from "./HobbyForm";
 import axios from "axios";
 import type HobbySchema from "../schemas/hobbySchema";
+import { type GeminiHobbySuggestion } from "../hobby.types";
+import GeminiHobbyCard from "./GeminiHobbyCard";
 
 function Dashboard() {
   const { userId, token } = useAuth();
@@ -18,7 +20,8 @@ function Dashboard() {
   const [showHobbyForm, setShowHobbyForm] = useState(false);
 
   // State for gemini button interaction
-  const [geminiResponse, setGeminiResponse] = useState<string | null>(null);
+  const [geminiResponse, setGeminiResponse] =
+    useState<GeminiHobbySuggestion | null>(null);
   const [geminiError, setGeminiError] = useState<string | null>(null);
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
 
@@ -122,14 +125,44 @@ function Dashboard() {
       // Assembling the backend URL from environment variables
       const backendUrl: string = import.meta.env.VITE_DEV_BACKEND_URL;
       const geminiRoute = backendUrl + "/user/recommend-Hobby";
-      const response = await axios.get(geminiRoute, {
+      const responseData = await axios.get(geminiRoute, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Gemini response:", response.data);
-      setGeminiResponse(response.data);
+
+      let rawGeminiString = responseData.data;
+      console.log("Raw Gemini response:", rawGeminiString);
+
+      if (typeof rawGeminiString === "string") {
+        // Remove Markdown fences and trim whitespace
+        let cleanJsonString = rawGeminiString;
+        if (cleanJsonString.startsWith("```json")) {
+          cleanJsonString = cleanJsonString.substring(7); // Remove "```json"
+        }
+        if (cleanJsonString.endsWith("```")) {
+          cleanJsonString = cleanJsonString.substring(
+            0,
+            cleanJsonString.length - 3
+          ); // Remove "```"
+        }
+        cleanJsonString = cleanJsonString.trim(); // Remove leading/trailing whitespace/newlines
+
+        // Parse the cleaned string
+        try {
+          const parsedHobby = JSON.parse(cleanJsonString);
+          setGeminiResponse(parsedHobby as GeminiHobbySuggestion);
+        } catch (parseError) {
+          console.error("Failed to parse Gemini JSON response:", parseError);
+          setGeminiError("Received an invalid format from Gemini suggestion.");
+        }
+      } else if (responseData) {
+        // If the response is already an object and doesn't need parsing (e.g. backend parsed it)
+        setGeminiResponse(rawGeminiString as GeminiHobbySuggestion);
+      } else {
+        setGeminiError("Received no valid data from Gemini route.");
+      }
     } catch (err: any) {
       // Axios error handling
       if (axios.isAxiosError(err)) {
@@ -188,7 +221,11 @@ function Dashboard() {
         {geminiResponse && (
           <div className="mt-4 p-4 bg-gray-700 rounded text-teal-300">
             <strong>Gemini Response:</strong>{" "}
-            <pre className="whitespace-pre-wrap">{geminiResponse}</pre>
+            <div className="mt-6">
+              {" "}
+              {/* Added some margin top for the card */}
+              <GeminiHobbyCard suggestion={geminiResponse} />
+            </div>
           </div>
         )}
         {geminiError && (
