@@ -17,6 +17,11 @@ function Dashboard() {
   const [hobbiesError, setHobbiesError] = useState<string | null>(null);
   const [showHobbyForm, setShowHobbyForm] = useState(false);
 
+  // State for gemini button interaction
+  const [geminiResponse, setGeminiResponse] = useState<string | null>(null);
+  const [geminiError, setGeminiError] = useState<string | null>(null);
+  const [isGeminiLoading, setIsGeminiLoading] = useState(false);
+
   const handleSignOut = async () => {
     await signOut(auth);
     navigate("/");
@@ -49,10 +54,7 @@ function Dashboard() {
       const userData = response.data;
       console.log("Fetched user data:", userData);
       console.log("Fetched hobbies:", userData);
-      console.log(
-        "Is userData.hobbies an array?",
-        Array.isArray(userData)
-      );
+      console.log("Is userData.hobbies an array?", Array.isArray(userData));
 
       setHobbies(userData || []);
     } catch (err: any) {
@@ -87,7 +89,8 @@ function Dashboard() {
       const payload = {
         ...newHobby,
         progress: Number(newHobby.progress),
-        proofUrl: newHobby.proofUrl?.trim() === "" ? undefined : newHobby.proofUrl,
+        proofUrl:
+          newHobby.proofUrl?.trim() === "" ? undefined : newHobby.proofUrl,
       };
 
       await axios.post(saveHobbyRoute, payload, {
@@ -96,14 +99,54 @@ function Dashboard() {
           "Content-Type": "application/json",
         },
       });
-      
+
       fetchHobbies();
     } catch (err: any) {
       console.error("Error saving hobby:", err.message);
     } finally {
       setShowHobbyForm(false);
     }
-  }
+  };
+
+  const handleGeminiRequest = async () => {
+    if (!token) {
+      setGeminiError("You are not authenticated.");
+      return;
+    }
+    setIsGeminiLoading(true);
+    setGeminiResponse(null);
+    setGeminiError(null);
+
+    try {
+      // Connect to the Gemini route
+      // Assembling the backend URL from environment variables
+      const backendUrl: string = import.meta.env.VITE_DEV_BACKEND_URL;
+      const geminiRoute = backendUrl + "/user/recommend-Hobby";
+      const response = await axios.get(geminiRoute, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (err: any) {
+      // Axios error handling
+      if (axios.isAxiosError(err)) {
+        // err.response?.data might contain error details from the backend
+        const backendError = err.response?.data?.error || err.message;
+        setGeminiError(backendError);
+        console.error(
+          "Failed to fetch hobbies (Axios error):",
+          err.response?.data || err.message
+        );
+      } else {
+        // For non-Axios errors
+        setGeminiError(err.message);
+        console.error("Failed to fetch hobbies (Unknown error):", err);
+      }
+    } finally {
+      setIsGeminiLoading(false);
+    }
+  };
 
   return (
     <div className="dashboard-container p-4">
@@ -125,6 +168,32 @@ function Dashboard() {
         >
           + Add Hobby
         </button>
+      </div>
+
+      <div className="my-8 p-6 bg-gray-800 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold text-teal-400 mb-4">
+          Generate Hobby Recommendation with Gemini
+        </h2>
+        <button
+          onClick={handleGeminiRequest}
+          disabled={isGeminiLoading}
+          className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75"
+        >
+          {isGeminiLoading
+            ? "Connecting to Gemini..."
+            : "Connect to Gemini Route"}
+        </button>
+        {geminiResponse && (
+          <div className="mt-4 p-4 bg-gray-700 rounded text-teal-300">
+            <strong>Gemini Response:</strong>{" "}
+            <pre className="whitespace-pre-wrap">{geminiResponse}</pre>
+          </div>
+        )}
+        {geminiError && (
+          <div className="mt-4 p-4 bg-red-900 rounded text-red-300">
+            <strong>Error:</strong> {geminiError}
+          </div>
+        )}
       </div>
 
       <div className="hobbies-section">
