@@ -48,6 +48,30 @@ function Dashboard() {
         const userData = response.data;
         console.log("Fetched user data:", userData);
         console.log("Fetched hobbies:", userData.hobbies);
+        console.log(
+          "Is userData.hobbies an array?",
+          Array.isArray(userData.hobbies)
+        );
+
+        // // Ensure hobbies is an array before setting state
+        // let hobbiesArray: Hobby[] = [];
+        // if (userData && userData.hobbies) {
+        //   if (Array.isArray(userData.hobbies)) {
+        //     hobbiesArray = userData.hobbies;
+        //   } else if (typeof userData.hobbies === "object") {
+        //     hobbiesArray = Object.values(userData.hobbies);
+        //     console.log(
+        //       "Converted userData.hobbies (object) to array:",
+        //       hobbiesArray
+        //     );
+        //   } else {
+        //     console.warn(
+        //       "userData.hobbies is neither an array nor a convertible object:",
+        //       userData.hobbies
+        //     );
+        //   }
+        // }
+
         setHobbies(userData.hobbies || []);
       } catch (err: any) {
         // Axios error handling
@@ -73,10 +97,35 @@ function Dashboard() {
   }, [token]); // Re-fetch hobbies if the token changes
 
   return (
-    <div>
-      <h1>Welcome userId: {userId}</h1>
-      <p>User token: {token}</p>
-      <button onClick={handleSignOut}>Sign Out</button>
+    <div className="dashboard-container p-4">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Welcome!</h1>
+        <button
+          onClick={handleSignOut}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Sign Out
+        </button>
+      </div>
+      <hr className="my-6" />
+
+      <div className="hobbies-section">
+        <h2 className="text-xl font-semibold mb-3">My Hobbies</h2>
+        {isLoadingHobbies && <p>Loading hobbies...</p>}
+        {hobbiesError && (
+          <p style={{ color: "red" }}>Error loading hobbies: {hobbiesError}</p>
+        )}
+        {!isLoadingHobbies && !hobbiesError && hobbies.length === 0 && (
+          <p>No hobbies found. You can add hobbies in your profile!</p>
+        )}
+        {!isLoadingHobbies && !hobbiesError && hobbies.length > 0 && (
+          <div className="hobbies-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {hobbies.map((hobby) => (
+              <HobbyCard key={hobby.id} hobby={hobby} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
