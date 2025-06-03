@@ -7,7 +7,7 @@ import HobbyCard from "./HobbyCard";
 import HobbyForm from "./HobbyForm";
 import axios from "axios";
 import type HobbySchema from "../schemas/hobbySchema";
-import { type GeminiHobbySuggestion } from "../hobby.types";
+import { type GeminiHobbySuggestion } from "../schemas/hobby.types";
 import GeminiHobbyCard from "./GeminiHobbyCard";
 
 function Dashboard() {

@@ -1,5 +1,5 @@
 import React from "react";
-import { type GeminiHobbySuggestion } from "../hobby.types";
+import { type GeminiHobbySuggestion } from "../schemas/hobby.types";
 
 interface GeminiHobbyCardProps {
   suggestion: GeminiHobbySuggestion;
