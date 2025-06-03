@@ -53,25 +53,6 @@ function Dashboard() {
           Array.isArray(userData.hobbies)
         );
 
-        // // Ensure hobbies is an array before setting state
-        // let hobbiesArray: Hobby[] = [];
-        // if (userData && userData.hobbies) {
-        //   if (Array.isArray(userData.hobbies)) {
-        //     hobbiesArray = userData.hobbies;
-        //   } else if (typeof userData.hobbies === "object") {
-        //     hobbiesArray = Object.values(userData.hobbies);
-        //     console.log(
-        //       "Converted userData.hobbies (object) to array:",
-        //       hobbiesArray
-        //     );
-        //   } else {
-        //     console.warn(
-        //       "userData.hobbies is neither an array nor a convertible object:",
-        //       userData.hobbies
-        //     );
-        //   }
-        // }
-
         setHobbies(userData.hobbies || []);
       } catch (err: any) {
         // Axios error handling
