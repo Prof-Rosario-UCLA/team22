@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import HobbyCard from "./HobbyCard";
 import HobbyForm from "./HobbyForm";
 import axios from "axios";
-import type HobbySchema from "../schemas/hobbySchema";
-import { type GeminiHobbySuggestion } from "../schemas/hobby.types";
+import {
+  type GeminiHobbySuggestion,
+  type HobbySchema,
+} from "../schemas/hobby.types";
 import GeminiHobbyCard from "./GeminiHobbyCard";
 
 function Dashboard() {
@@ -224,7 +226,10 @@ function Dashboard() {
             <div className="mt-6">
               {" "}
               {/* Added some margin top for the card */}
-              <GeminiHobbyCard suggestion={geminiResponse} />
+              <GeminiHobbyCard
+                suggestion={geminiResponse}
+                saveHobby={handleSaveHobby}
+              />
             </div>
           </div>
         )}

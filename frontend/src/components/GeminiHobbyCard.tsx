@@ -1,12 +1,32 @@
 import React from "react";
-import { type GeminiHobbySuggestion } from "../schemas/hobby.types";
+import {
+  type GeminiHobbySuggestion,
+  type HobbySchema,
+} from "../schemas/hobby.types";
 
 interface GeminiHobbyCardProps {
   suggestion: GeminiHobbySuggestion;
+  saveHobby: (suggestionToSave: HobbySchema) => void;
 }
 
-const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({ suggestion }) => {
-  if (!suggestion) return null; // Or some fallback UI
+const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({
+  suggestion,
+  saveHobby,
+}) => {
+  if (!suggestion) return null;
+
+  // ADD: Handle saving the hobby suggestion
+  const handleSaveHobby = () => {
+    const hobbyToSave: HobbySchema = {
+      name: suggestion.name,
+      category: suggestion.category,
+      difficulty: suggestion.difficulty,
+      progress: 0, // Default progress
+      completed: false, // Default completed status
+      proofUrl: "", // Optional field, can be left empty initially
+    };
+    saveHobby(hobbyToSave);
+  };
 
   return (
     <div className="bg-slate-700 p-6 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300 text-slate-100 border border-slate-600">
@@ -45,7 +65,10 @@ const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({ suggestion }) => {
           </span>
         </div>
       </div>
-      <button className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg text-sm">
+      <button
+        onClick={handleSaveHobby}
+        className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg text-sm"
+      >
         Add to My Hobbies
       </button>
     </div>
