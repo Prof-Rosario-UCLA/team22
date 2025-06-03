@@ -1,5 +1,5 @@
 export default interface HobbySchema {
-  id: string;
+  id?: string;
   name: string;
   category: string;
   difficulty: string;
