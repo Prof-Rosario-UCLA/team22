@@ -1,6 +1,10 @@
 import express from "express";
 import authenticate from "../middleware/auth.js";
-import { getUserHobbies, saveUserHobby, deleteUserHobby } from "../services/firestoreService.js";
+import { getUserHobbies, 
+  saveUserHobby, 
+  deleteUserHobby,
+  updateUserHobby 
+} from "../services/firestoreService.js";
 import { generateNewHobby } from "../services/geminiService.js";
 import {
   cacheUserHooby,
@@ -43,6 +47,20 @@ router.delete("/delete-hobby/:hobbyId", authenticate, async (req, res) => {
   } catch (e) {
     console.error("Error deleting hobby:", e.message);
     res.status(500).json({ error: "Failed to delete hobby: " + e.message });
+  }
+});
+
+router.patch("/update-hobby/:hobbyId", authenticate, async(req, res) => {
+  const { hobbyId } = req.params;
+  console.log("Hitting /user/update-hobby");
+  try {
+    const userId = req.user.uid;
+    const updateData = req.body;
+    updateUserHobby(userId, hobbyId, updateData);
+    res.status(200).json({ message : "Hobby updated successfully."});
+  } catch (e) {
+    console.error("Error updating hobby:", e.message);
+    res.status(500).json({ error: "Failed to update hobby: " + e.message });
   }
 });
 

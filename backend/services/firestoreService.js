@@ -44,3 +44,15 @@ export const deleteUserHobby = async (uid, hobbyId) => {
     throw new Error(`Failed to delete hobby: ${e.message}`);
   }
 }
+
+export const updateUserHobby = async (uid, hobbyId, updatedHobbyData) => {
+  try {
+    await db.collection('users')
+            .doc(uid)
+            .collection('hobbies')
+            .doc(hobbyId)
+            .update(updatedHobbyData);
+  } catch (e) {
+    throw new Error(`Failed to update hobby: ${e.message}`);
+  }
+}
