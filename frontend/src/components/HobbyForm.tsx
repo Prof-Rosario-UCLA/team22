@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import type HobbySchema from '../schemas/hobbySchema';
+import React, { useState } from "react";
+import { type HobbySchema } from "../schemas/hobby.types";
 
 interface HobbyFormProps {
   onClose: () => void;
@@ -17,14 +17,14 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
   });
 
   const handleChange = (
-      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-      const { name, value } = e.target;
+    const { name, value } = e.target;
 
-      setForm((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -51,7 +51,9 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium text-gray-700">Category</label>
+            <label className="block mb-1 font-medium text-gray-700">
+              Category
+            </label>
             <input
               type="text"
               name="category"
@@ -62,7 +64,9 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium text-gray-700">Difficulty</label>
+            <label className="block mb-1 font-medium text-gray-700">
+              Difficulty
+            </label>
             <input
               type="text"
               name="difficulty"
@@ -73,7 +77,9 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium text-gray-700">Progress (%)</label>
+            <label className="block mb-1 font-medium text-gray-700">
+              Progress (%)
+            </label>
             <input
               type="number"
               name="progress"
@@ -85,8 +91,10 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
             />
           </div>
 
-          <div> 
-            <label className="block mb-1 font-medium text-gray-700">Proof URL</label>
+          <div>
+            <label className="block mb-1 font-medium text-gray-700">
+              Proof URL
+            </label>
             <input
               type="url"
               name="proofUrl"
