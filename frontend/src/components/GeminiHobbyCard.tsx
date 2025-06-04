@@ -6,7 +6,7 @@ import {
 
 interface GeminiHobbyCardProps {
   suggestion: GeminiHobbySuggestion;
-  saveHobby: (suggestionToSave: HobbySchema) => void;
+  saveHobby: (suggestionToSave: HobbySchema, generatedByGemini: boolean) => void;
 }
 
 const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({
@@ -25,7 +25,7 @@ const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({
       completed: false, // Default completed status
       proofUrl: "",
     };
-    saveHobby(hobbyToSave);
+    saveHobby(hobbyToSave, true);
   };
 
   return (

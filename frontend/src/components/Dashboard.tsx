@@ -87,7 +87,7 @@ function Dashboard() {
     fetchHobbies();
   }, [token]); // Re-fetch hobbies if the token changes
 
-  const handleSaveHobby = async (newHobby: HobbySchema) => {
+  const handleSaveHobby = async (newHobby: HobbySchema, generatedByGemini: boolean) => {
     // If no token, don't attempt to save
     if (!token) {
       console.error("No token found, cannot save hobby.");
@@ -110,6 +110,16 @@ function Dashboard() {
           "Content-Type": "application/json",
         },
       });
+
+      if (generatedByGemini) {
+        const cacheGeminiRecommendedHobby = backendUrl + "/user/cache-recommended-hobby";
+        await axios.post(cacheGeminiRecommendedHobby, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      }
 
       setHobbies((prevHobbies) => [...prevHobbies, postedHobby.data]);
     } catch (err: any) {
