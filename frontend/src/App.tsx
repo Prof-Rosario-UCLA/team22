@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import SignInPage from "./components/signIn";
+import SignInPage from "./components/SignIn";
 import Dashboard from "./components/Dashboard";
 import { useAuth } from "./contexts/AuthContext";
 
