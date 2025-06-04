@@ -1,6 +1,3 @@
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
-import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import SignInPage from "./components/signIn";
 import Dashboard from "./components/Dashboard";

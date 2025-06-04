@@ -6,3 +6,5 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
 });
+
+// Tailwind dark mode and design system are handled in tailwind.css and tailwind.config.js
