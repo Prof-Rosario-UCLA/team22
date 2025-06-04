@@ -17,6 +17,7 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const [hobbies, setHobbies] = useState<HobbySchema[]>([]);
+  const [cachedGeminiHobbies, setcachedGeminiHobbies] = useState<HobbySchema[]>([]);
   const [isLoadingHobbies, setIsLoadingHobbies] = useState(true);
   const [hobbiesError, setHobbiesError] = useState<string | null>(null);
   const [showHobbyForm, setShowHobbyForm] = useState(false);
@@ -87,7 +88,7 @@ function Dashboard() {
     fetchHobbies();
   }, [token]); // Re-fetch hobbies if the token changes
 
-  const handleSaveHobby = async (newHobby: HobbySchema, generatedByGemini: boolean) => {
+  const handleSaveHobby = async (newHobby: HobbySchema) => {
     // If no token, don't attempt to save
     if (!token) {
       console.error("No token found, cannot save hobby.");
@@ -110,16 +111,6 @@ function Dashboard() {
           "Content-Type": "application/json",
         },
       });
-
-      if (generatedByGemini) {
-        const cacheGeminiRecommendedHobby = backendUrl + "/user/cache-recommended-hobby";
-        await axios.post(cacheGeminiRecommendedHobby, payload, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-      }
 
       setHobbies((prevHobbies) => [...prevHobbies, postedHobby.data]);
     } catch (err: any) {
@@ -189,6 +180,24 @@ function Dashboard() {
         try {
           const parsedHobby = JSON.parse(cleanJsonString);
           setGeminiResponse(parsedHobby as GeminiHobbySuggestion);
+
+          // Cache recommended hobby
+          const payload: HobbySchema = {
+            name: parsedHobby.name,
+            category: parsedHobby.category,
+            difficulty: parsedHobby.difficulty,
+            progress: 0, // Default progress
+            completed: false, // Default completed status
+            proofUrl: "",
+          };
+          const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+          const cacheGeminiRecommendedHobby = backendUrl + "/user/cache-recommended-hobby";
+          await axios.post(cacheGeminiRecommendedHobby, payload, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
         } catch (parseError) {
           console.error("Failed to parse Gemini JSON response:", parseError);
           setGeminiError("Received an invalid format from Gemini suggestion.");

@@ -3,7 +3,7 @@ import { type HobbySchema } from "../schemas/hobby.types";
 
 interface HobbyFormProps {
   onClose: () => void;
-  onSave: (hobby: HobbySchema, generatedByGemini: boolean) => void;
+  onSave: (hobby: HobbySchema) => void;
 }
 
 const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
@@ -29,7 +29,7 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ ...form, progress: Number(form.progress) }, false);
+    onSave({ ...form, progress: Number(form.progress) });
     onClose();
   };
 

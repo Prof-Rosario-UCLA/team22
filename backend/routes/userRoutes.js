@@ -91,7 +91,7 @@ router.get("/recommend-Hobby", authenticate, async (req, res) => {
 });
 
 router.get("/cached-hobbies", authenticate, async (req, res) => {
-  console.log("Hitting /cached-hobbies");
+  console.log("Hitting /user/cached-hobbies");
   try {
     const cachedHobbies = await getCachedUserHobbies(req.user.uid);
     res.status(200).json(cachedHobbies);
@@ -104,7 +104,7 @@ router.get("/cached-hobbies", authenticate, async (req, res) => {
 });
 
 router.post("/cache-recommended-hobby", authenticate, async (req, res) => {
-  console.log("hitting /cache-recommended-hobby");
+  console.log("hitting /user/cache-recommended-hobby");
   try {
     const userId = req.user.uid;
     const hobbyData = req.body;
