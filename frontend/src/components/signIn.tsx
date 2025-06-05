@@ -62,9 +62,9 @@ function SignInPage() {
         </h1>
         <button
           onClick={handleSignInWithGoogle}
-          className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded transition mb-6 shadow-sm"
+          className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded border border-gray-300 transition mb-6 shadow-sm"
         >
-          <img src="/google-logo.png" alt="Google Logo" className="w-5 h-5" />
+          <img src="/google.svg" alt="Google Logo" className="w-5 h-5" />
           Sign in with Google
         </button>
 
