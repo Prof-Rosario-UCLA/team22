@@ -25,6 +25,7 @@ const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({
       completed: false, // Default completed status
       proofUrl: "",
     };
+
     saveHobby(hobbyToSave);
   };
 

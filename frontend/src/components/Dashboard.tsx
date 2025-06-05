@@ -17,6 +17,7 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const [hobbies, setHobbies] = useState<HobbySchema[]>([]);
+  const [cachedGeminiHobbies, setCachedGeminiHobbies] = useState<HobbySchema[]>([]);
   const [isLoadingHobbies, setIsLoadingHobbies] = useState(true);
   const [hobbiesError, setHobbiesError] = useState<string | null>(null);
   const [showHobbyForm, setShowHobbyForm] = useState(false);
@@ -82,9 +83,28 @@ function Dashboard() {
     }
   };
 
+  const fetchCachedGeminiHobbies = async () => {
+    if (!token) return;
+
+    try {
+      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      const route = backendUrl + "/user/cached-hobbies";
+      const cachedHobbies = await axios.get(route, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setCachedGeminiHobbies(cachedHobbies.data || []);
+    } catch (err) {
+      console.error("Error fetching cached Gemini hobbies:", err);
+    }
+  };
+
   // useEffect to fetch hobbies when the component mounts or token changes
   useEffect(() => {
     fetchHobbies();
+    fetchCachedGeminiHobbies();
   }, [token]); // Re-fetch hobbies if the token changes
 
   const handleSaveHobby = async (newHobby: HobbySchema) => {
@@ -179,6 +199,30 @@ function Dashboard() {
         try {
           const parsedHobby = JSON.parse(cleanJsonString);
           setGeminiResponse(parsedHobby as GeminiHobbySuggestion);
+
+          // Cache recommended hobby
+          const payload: HobbySchema = {
+            id: Date.now().toString(),
+            name: parsedHobby.name,
+            category: parsedHobby.category,
+            difficulty: parsedHobby.difficulty,
+            progress: 0, // Default progress
+            completed: false, // Default completed status
+            proofUrl: "",
+          };
+          const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+          const cacheGeminiRecommendedHobby = backendUrl + "/user/cache-recommended-hobby";
+          await axios.post(cacheGeminiRecommendedHobby, payload, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+          setCachedGeminiHobbies((prevCachedHobbies) => {
+            const trimmed = 
+              prevCachedHobbies.length >= 3 ? prevCachedHobbies.slice(1) : prevCachedHobbies;
+            return [...trimmed, payload];
+          });
         } catch (parseError) {
           console.error("Failed to parse Gemini JSON response:", parseError);
           setGeminiError("Received an invalid format from Gemini suggestion.");
@@ -229,6 +273,19 @@ function Dashboard() {
         >
           + Add Hobby
         </button>
+      </div>
+
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">Most Recent AI Suggestions</h2>
+        {cachedGeminiHobbies.length === 0 ? (
+          <p className="text-gray-600">No recent AI suggestions yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {cachedGeminiHobbies.map((hobby) => (
+              <HobbyCard key={hobby.id} hobby={hobby} onDelete={handleDeleteHobby} />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="my-8 p-6 bg-gray-800 rounded-lg shadow-md">
