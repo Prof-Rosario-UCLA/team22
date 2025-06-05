@@ -56,8 +56,8 @@ function SignInPage() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-stone-300">
-      <div className="flex flex-col py-12 px-8 shadow-lg rounded-lg w-96 bg-stone-50">
-        <h1 className="font-bold pb-8 text-2xl">Sign in</h1>
+      <div className="flex flex-col py-16 px-12 shadow-lg rounded-lg w-96 bg-stone-50">
+        <h1 className="font-bold mb-6 text-2xl">Sign in</h1>
 
         <form className="flex flex-col gap-2" onSubmit={handleSignInWithEmail}>
           <input
