@@ -55,56 +55,43 @@ function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg dark:bg-bg px-4">
-      <div className="w-full max-w-md bg-surface dark:bg-surface rounded-lg shadow-lg p-8">
-        <h1 className="text-3xl font-bold text-heading mb-6 text-center">
-          Sign in to your account
-        </h1>
-        <button
-          onClick={handleSignInWithGoogle}
-          className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded border border-gray-300 transition mb-6 shadow-sm"
-        >
-          <img src="/google.svg" alt="Google Logo" className="w-5 h-5" />
-          Sign in with Google
-        </button>
+    <div className="flex flex-col items-center justify-center h-screen bg-stone-300">
+      <div className="flex flex-col py-12 px-8 shadow-lg rounded-lg w-96 bg-stone-50">
+        <h1 className="font-bold pb-6 text-2xl">Sign in</h1>
 
-        {message && (
-          <p className="text-green-600 text-center mb-2">{message}</p>
-        )}
-        {error && <p className="text-danger text-center mb-2">{error}</p>}
-
-        <div className="flex flex-col gap-6 mt-4">
-          <form
-            onSubmit={handleSignInWithEmail}
-            className="flex flex-col gap-3"
+        <form className="flex flex-col gap-2" onSubmit={handleSignInWithEmail}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={signInEmail}
+            onChange={(e) => setSignInEmail(e.target.value)}
+            className="border-2 border-stone-200 rounded-lg p-2"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={signInPassword}
+            onChange={(e) => setSignInPassword(e.target.value)}
+            className="border-2 border-stone-200 rounded-lg p-2"
+            required
+          />
+          {message && <p className="text-emerald-500 text-xs">{message}</p>}
+          {error && <p className="text-red-500 text-xs">{error}</p>}
+          <button
+            className="bg-emerald-400 mt-4 py-2 rounded-lg text-white hover:bg-emerald-600"
+            type="submit"
           >
-            <h2 className="text-lg font-semibold text-heading mb-1">
-              Sign In With Email
-            </h2>
-            <input
-              type="email"
-              placeholder="Email"
-              value={signInEmail}
-              onChange={(e) => setSignInEmail(e.target.value)}
-              required
-              className="px-4 py-2 rounded border border-secondary bg-bg text-text focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={signInPassword}
-              onChange={(e) => setSignInPassword(e.target.value)}
-              required
-              className="px-4 py-2 rounded border border-secondary bg-bg text-text focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-            <button
-              type="submit"
-              className="bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded transition shadow-sm"
-            >
-              Sign In
-            </button>
-          </form>
-        </div>
+            Sign In
+          </button>
+          <button
+            onClick={handleSignInWithGoogle}
+            className="flex justify-center items-center border-2 border-stone-200 rounded-lg p-2"
+          >
+            <img src="/google.svg" alt="Google Logo" className="w-5 h-5 mr-2" />
+            Sign in with Google
+          </button>
+        </form>
       </div>
     </div>
   );
