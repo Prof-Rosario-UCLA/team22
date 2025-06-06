@@ -282,7 +282,14 @@ function Dashboard() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {cachedGeminiHobbies.map((hobby) => (
-              <HobbyCard key={hobby.id} hobby={hobby} onDelete={handleDeleteHobby} />
+              <HobbyCard key={hobby.id} hobby={hobby}>
+                <button
+                  onClick={() => handleSaveHobby(hobby)}
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Save to My Hobbies
+                </button>
+              </HobbyCard>
             ))}
           </div>
         )}
@@ -333,7 +340,19 @@ function Dashboard() {
         {!isLoadingHobbies && !hobbiesError && hobbies.length > 0 && (
           <div className="hobbies-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {hobbies.map((hobby) => (
-              <HobbyCard key={hobby.id} hobby={hobby} onDelete={handleDeleteHobby}/>
+
+              <HobbyCard key={hobby.id} hobby={hobby}>
+                <button
+                  onClick={() => {
+                    if (hobby.id) {
+                      handleDeleteHobby(hobby.id);
+                    }
+                  }}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Delete
+                </button>
+              </HobbyCard>
             ))}
           </div>
         )}
