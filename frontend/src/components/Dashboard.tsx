@@ -119,7 +119,7 @@ function Dashboard() {
       const saveHobbyRoute = backendUrl + "/user/save-Hobby";
       const payload = {
         ...newHobby,
-        progress: Number(newHobby.progress),
+        progress: Number(33),
         proofUrl:
           newHobby.proofUrl?.trim() === "" ? undefined : newHobby.proofUrl,
       };

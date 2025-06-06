@@ -21,8 +21,9 @@ const getDifficultyColor = (difficulty: string) => {
 
 const getProgressLabel = (progress: number): string => {
   if (progress >= 100) return "Done";
-  if (progress >= 66) return "Tried it";
-  if (progress >= 33) return "Just added";
+  if (progress >= 66) return "Tried It";
+  if (progress >= 33) return "Just Added";
+  if (progress == 0) return "Not Added";
   return "Not started";
 };
 

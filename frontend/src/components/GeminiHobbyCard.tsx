@@ -21,7 +21,7 @@ const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({
       name: suggestion.name,
       category: suggestion.category,
       difficulty: suggestion.difficulty,
-      progress: 0, // Default progress
+      progress: 33, // Default progress
       completed: false, // Default completed status
       proofUrl: "",
     };
