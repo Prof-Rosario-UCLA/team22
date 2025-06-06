@@ -9,28 +9,38 @@ export function DraggableCard({
     hobby: HobbySchema;
     onDelete: (id: string) => void;
 }) {
+    if (!hobby.id) return null;
 
-    if (!hobby.id) return null; // TODO add better fall back
-    
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
-        id: hobby.id 
+        id: hobby.id,
     });
 
     const style = transform
-        ? {
-            transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-            }
+        ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
         : undefined;
 
     return (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-            <HobbyCard hobby={hobby}>
-            <button
-                onClick={() => hobby.id && onDelete(hobby.id)}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        <div ref={setNodeRef} style={style}>
+            <HobbyCard
+                hobby={hobby}
+                dragHandle={
+                    <div
+                        {...listeners}
+                        {...attributes}
+                        className="cursor-grab bg-gray-200 px-2 py-1 text-xs rounded w-fit"
+                    >
+                        Drag Me
+                    </div>
+                }
             >
-                Delete
-            </button>
+                <button
+                    onClick={(e) => {
+                        hobby.id && onDelete(hobby.id);
+                    }}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Delete
+                </button>
             </HobbyCard>
         </div>
     );

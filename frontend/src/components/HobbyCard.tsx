@@ -4,6 +4,7 @@ import { type HobbySchema } from "../schemas/hobby.types";
 interface HobbyCardProps {
   hobby: HobbySchema;
   children?: React.ReactNode;
+  dragHandle?: React.ReactNode;
 }
 
 const getDifficultyColor = (difficulty: string) => {
@@ -27,11 +28,12 @@ const getProgressLabel = (progress: number): string => {
   return "Not started";
 };
 
-const HobbyCard: React.FC<HobbyCardProps> = ({ hobby, children }) => {
+const HobbyCard: React.FC<HobbyCardProps> = ({ hobby, children, dragHandle }) => {
   const difficultyColor = getDifficultyColor(hobby.difficulty);
   return (
     <article className="bg-white shadow-md rounded-lg p-4 border border-gray-200 mb-6 space-y-2">
       <h3 className="text-xl font-bold text-gray-900">{hobby.name}</h3>
+      {dragHandle && <div>{dragHandle}</div>}
 
       {hobby.category && (
         <p className="text-gray-700 text-sm">Category: {hobby.category}</p>

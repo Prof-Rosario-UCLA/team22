@@ -144,6 +144,7 @@ function Dashboard() {
   };
 
   const handleDeleteHobby = async (hobbyId: string) => {
+    console.log("Attempting to delete");
     try {
       const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
       const deleteUrl = `${backendUrl}/user/delete-hobby/${hobbyId}`;
