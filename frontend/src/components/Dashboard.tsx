@@ -11,6 +11,7 @@ import {
   type HobbySchema,
 } from "../schemas/hobby.types";
 import GeminiHobbyCard from "./GeminiHobbyCard";
+import HobbyList from "./HobbyList";
 
 function Dashboard() {
   const { userId, token } = useAuth();
@@ -338,22 +339,25 @@ function Dashboard() {
           <p>No hobbies found. You can add hobbies in your profile!</p>
         )}
         {!isLoadingHobbies && !hobbiesError && hobbies.length > 0 && (
-          <div className="hobbies-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {hobbies.map((hobby) => (
-
-              <HobbyCard key={hobby.id} hobby={hobby}>
-                <button
-                  onClick={() => {
-                    if (hobby.id) {
-                      handleDeleteHobby(hobby.id);
-                    }
-                  }}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Delete
-                </button>
-              </HobbyCard>
-            ))}
+          <div className="hobbies-section mt-12">
+            <h2 className="text-xl font-semibold mb-4">My Hobbies</h2>
+            <div className="flex flex-col lg:flex-row gap-6">
+              <HobbyList
+                title="Just Added"
+                hobbies={hobbies.filter((h) => h.progress === 33)}
+                onDelete={handleDeleteHobby}
+              />
+              <HobbyList
+                title="Tried It"
+                hobbies={hobbies.filter((h) => h.progress === 66)}
+                onDelete={handleDeleteHobby}
+              />
+              <HobbyList
+                title="Completed"
+                hobbies={hobbies.filter((h) => h.progress === 100)}
+                onDelete={handleDeleteHobby}
+              />
+            </div>
           </div>
         )}
       </div>

@@ -50,9 +50,6 @@ const HobbyCard: React.FC<HobbyCardProps> = ({ hobby, children }) => {
         ></div>
       </div>
 
-      <p className="text-sm text-gray-600">
-        {hobby.completed ? "Completed" : "In Progress"}
-      </p>
       {children && <div className="mt-3">{children}</div>}
     </article>
   );
