@@ -1,6 +1,6 @@
 import redisClient from "../config/redis.js";
 
-const TTL_SECONDS_ONE_HOUR = 60 * 60;
+const TTL_SECONDS_ONE_DAY = 60 * 60 * 24;
 
 export const cacheUserHooby = async (uid, hobbyData) => {
     const key = `hobbies:${uid}`;
@@ -15,7 +15,7 @@ export const cacheUserHooby = async (uid, hobbyData) => {
         hobbies.push(hobbyData);
 
         await redisClient.set(key, JSON.stringify(hobbies), {
-            EX: TTL_SECONDS_ONE_HOUR,
+            EX: TTL_SECONDS_ONE_DAY,
         })
     } catch (e) {
         console.error(`rror caching hobby to redis: `, e);
