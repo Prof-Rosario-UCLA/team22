@@ -33,7 +33,15 @@ const HobbyCard: React.FC<HobbyCardProps> = ({ hobby, children, dragHandle }) =>
   return (
     <article className="bg-white shadow-md rounded-lg p-4 border border-gray-200 mb-6 space-y-2">
       <h3 className="text-xl font-bold text-gray-900">{hobby.name}</h3>
-      {dragHandle && <div>{dragHandle}</div>}
+        {dragHandle && (
+          <div className="mb-2">
+            <div
+              className="w-full h-5 bg-gray-300 rounded cursor-grab flex items-center justify-center text-xs font-medium text-gray-700 hover:bg-gray-400 transition"
+            >
+              {dragHandle}
+            </div>
+          </div>
+        )}
 
       {hobby.category && (
         <p className="text-gray-700 text-sm">Category: {hobby.category}</p>
