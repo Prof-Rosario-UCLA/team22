@@ -15,3 +15,11 @@ export interface HobbySchema {
   completed: boolean;
   proofUrl?: string;
 }
+
+export const PROGRESS_BUCKETS = {
+  "just-added": 33,
+  "tried-it": 66,
+  "completed": 100,
+}
+
+export type ProgressBucket = keyof typeof PROGRESS_BUCKETS;

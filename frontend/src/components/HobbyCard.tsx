@@ -30,7 +30,7 @@ const getProgressLabel = (progress: number): string => {
 const HobbyCard: React.FC<HobbyCardProps> = ({ hobby, children }) => {
   const difficultyColor = getDifficultyColor(hobby.difficulty);
   return (
-    <article className="bg-white shadow-md rounded-lg p-4 border border-gray-200 space-y-2">
+    <article className="bg-white shadow-md rounded-lg p-4 border border-gray-200 mb-6 space-y-2">
       <h3 className="text-xl font-bold text-gray-900">{hobby.name}</h3>
 
       {hobby.category && (

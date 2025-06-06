@@ -9,9 +9,12 @@ import axios from "axios";
 import {
   type GeminiHobbySuggestion,
   type HobbySchema,
+  PROGRESS_BUCKETS,
+  type ProgressBucket
 } from "../schemas/hobby.types";
 import GeminiHobbyCard from "./GeminiHobbyCard";
-import HobbyList from "./HobbyList";
+import { DndContext, closestCenter, type DragEndEvent } from "@dnd-kit/core";
+import { DroppableColumn } from "./DroppableColumn";
 
 function Dashboard() {
   const { userId, token } = useAuth();
@@ -254,6 +257,43 @@ function Dashboard() {
     }
   };
 
+  function getTitle(bucket: string) {
+    switch (bucket) {
+      case "just-added": return "Just Added";
+      case "tried-it": return "Tried It";
+      case "completed": return "Completed";
+      default: return "Hobbies";
+    }
+  }
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { over, active } = event;
+    if (!over || over.id === null) return;
+
+    const hobbyId = active.id as string;
+    const newProgress = PROGRESS_BUCKETS[over.id as ProgressBucket];
+
+    try {
+      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      await axios.patch(`${backendUrl}/user/update-hobby/${hobbyId}`, {
+        progress: newProgress,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      setHobbies((prev) =>
+        prev.map((hobby) =>
+          hobby.id === hobbyId ? { ...hobby, progress: newProgress } : hobby
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update hobby progress:", error);
+    }
+  };
+
   return (
     <div className="dashboard-container p-4">
       <div className="flex justify-between items-center mb-4">
@@ -339,26 +379,22 @@ function Dashboard() {
           <p>No hobbies found. You can add hobbies in your profile!</p>
         )}
         {!isLoadingHobbies && !hobbiesError && hobbies.length > 0 && (
-          <div className="hobbies-section mt-12">
-            <h2 className="text-xl font-semibold mb-4">My Hobbies</h2>
-            <div className="flex flex-col lg:flex-row gap-6">
-              <HobbyList
-                title="Just Added"
-                hobbies={hobbies.filter((h) => h.progress === 33)}
-                onDelete={handleDeleteHobby}
-              />
-              <HobbyList
-                title="Tried It"
-                hobbies={hobbies.filter((h) => h.progress === 66)}
-                onDelete={handleDeleteHobby}
-              />
-              <HobbyList
-                title="Completed"
-                hobbies={hobbies.filter((h) => h.progress === 100)}
-                onDelete={handleDeleteHobby}
-              />
+          <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <div className="flex gap-4">
+              {Object.entries(PROGRESS_BUCKETS).map(([bucket, progress]) => (
+                <DroppableColumn
+                  key={bucket}
+                  id={bucket}
+                  title={getTitle(bucket)}
+                  hobbies={hobbies.filter((h) => h.progress === progress)}
+                  onDelete={handleDeleteHobby}
+                />
+              ))}
             </div>
-          </div>
+          </DndContext>
         )}
       </div>
 
