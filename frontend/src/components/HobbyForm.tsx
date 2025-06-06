@@ -11,7 +11,7 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
     name: "",
     category: "",
     difficulty: "",
-    progress: 0,
+    progress: 33,
     completed: false,
     proofUrl: "",
   });
@@ -76,39 +76,11 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
             />
           </div>
 
-          <div>
-            <label className="block mb-1 font-medium text-gray-700">
-              Progress (%)
-            </label>
-            <input
-              type="number"
-              name="progress"
-              value={form.progress}
-              onChange={handleChange}
-              min={0}
-              max={100}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-black"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1 font-medium text-gray-700">
-              Proof URL
-            </label>
-            <input
-              type="url"
-              name="proofUrl"
-              value={form.proofUrl}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-black"
-            />
-          </div>
-
           <div className="flex justify-between pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
             >
               Cancel
             </button>
