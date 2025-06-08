@@ -172,7 +172,7 @@ function NewHobby() {
         </div>
 
         {geminiResponse && (
-          <div className="md:col-span-2 bg-stone-50 p-6 rounded-lg shadow-md">
+          <div className="md:col-span-2 bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
             <h3 className="text-lg font-semibold mb-4">AI Recommendation</h3>
             <GeminiHobbyCard
               suggestion={geminiResponse}

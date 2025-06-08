@@ -19,7 +19,6 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Trigger animation after component mounts
     setIsVisible(true);
   }, []);
 

@@ -3,6 +3,7 @@ import {
   type GeminiHobbySuggestion,
   type HobbySchema,
 } from "../schemas/hobby.types";
+import { getDifficultyColor } from "../utilities/difficultyColor";
 
 interface GeminiHobbyCardProps {
   suggestion: GeminiHobbySuggestion;
@@ -29,49 +30,59 @@ const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({
     saveHobby(hobbyToSave);
   };
 
+  const difficultyColors = getDifficultyColor(suggestion.difficulty);
+
   return (
-    <div className="bg-slate-700 p-6 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300 text-slate-100 border border-slate-600">
-      <h3 className="text-2xl font-bold mb-3 text-teal-400">
-        {suggestion.name}
-      </h3>
+    <div className="bg-white p-6 rounded-lg shadow-md border border-stone-200 hover:shadow-lg transition-all duration-300">
+      <div className="flex flex-col h-full">
+        <h3 className="text-xl font-bold mb-2 text-stone-800">
+          {suggestion.name}
+        </h3>
 
-      {suggestion.description && (
-        <p className="text-slate-300 mb-4 text-sm">{suggestion.description}</p>
-      )}
+        {suggestion.description && (
+          <p className="text-stone-600 mb-4 text-sm leading-relaxed">
+            {suggestion.description}
+          </p>
+        )}
 
-      <div className="space-y-2 text-sm">
-        <div>
-          <span className="font-semibold text-slate-400">Category:</span>
-          <span className="ml-2 bg-sky-700 text-sky-200 px-2 py-0.5 rounded-full text-xs">
-            {suggestion.category}
-          </span>
-        </div>
-        <div>
-          <span className="font-semibold text-slate-400">Difficulty:</span>
-          <span className="ml-2 text-slate-200">{suggestion.difficulty}</span>
-        </div>
-        <div>
-          <span className="font-semibold text-slate-400">
-            Match Confidence:
-          </span>
-          <div className="w-full bg-slate-600 rounded-full h-2.5 mt-1">
-            <div
-              className="bg-teal-500 h-2.5 rounded-full"
-              style={{ width: `${suggestion.matchPercentage}%` }}
-              title={`${suggestion.matchPercentage}%`}
-            ></div>
+        <div className="space-y-3 text-sm mt-auto">
+          <div className="flex items-center gap-2">
+            <span className="text-stone-600 text-sm">
+              {suggestion.category}
+            </span>
           </div>
-          <span className="text-xs text-teal-300">
-            {suggestion.matchPercentage}%
-          </span>
+
+          <div className="flex items-center gap-2">
+            <span
+              className={`text-xs font-medium ${difficultyColors.text} ${difficultyColors.bg} px-2 py-1 rounded-full inline-block`}
+            >
+              {suggestion.difficulty}
+            </span>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-end mb-1">
+              <span className="text-xs font-medium text-teal-500">
+                {suggestion.matchPercentage}% Match
+              </span>
+            </div>
+            <div className="w-full bg-stone-100 rounded-full h-1.5">
+              <div
+                className="bg-teal-400 h-1.5 rounded-full transition-all duration-300"
+                style={{ width: `${suggestion.matchPercentage}%` }}
+                title={`${suggestion.matchPercentage}%`}
+              ></div>
+            </div>
+          </div>
         </div>
+
+        <button
+          onClick={handleSaveHobby}
+          className="mt-6 w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 text-sm"
+        >
+          Add to My Hobbies
+        </button>
       </div>
-      <button
-        onClick={handleSaveHobby}
-        className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg text-sm"
-      >
-        Add to My Hobbies
-      </button>
     </div>
   );
 };
