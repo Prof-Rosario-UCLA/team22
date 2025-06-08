@@ -148,18 +148,16 @@ function NewHobby() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
-        {/* Manual Hobby Addition */}
         <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
           <h2 className="text-xl font-semibold mb-4">Add Hobby Manually</h2>
           <button
             onClick={() => setShowHobbyForm(true)}
-            className="bg-emerald-400 py-2 px-4 rounded-lg text-white hover:bg-emerald-600 transition-colors w-full"
+            className="bg-emerald-400 py-2 px-4 rounded-lg font-bold text-stone-50 hover:bg-emerald-600 transition-colors w-full"
           >
-            + Create New Hobby
+            Create New Hobby
           </button>
         </div>
 
-        {/* AI Hobby Recommendation */}
         <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
           <h2 className="text-xl font-semibold mb-4">Get AI Recommendation</h2>
           <button
@@ -173,7 +171,6 @@ function NewHobby() {
           </button>
         </div>
 
-        {/* Gemini Response Display */}
         {geminiResponse && (
           <div className="md:col-span-2 bg-stone-50 p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold mb-4">AI Recommendation</h3>
@@ -184,7 +181,6 @@ function NewHobby() {
           </div>
         )}
 
-        {/* Error Display */}
         {geminiError && (
           <div className="md:col-span-2 bg-red-50 p-4 rounded-lg shadow-md">
             <p className="text-red-600">{geminiError}</p>
@@ -192,7 +188,6 @@ function NewHobby() {
         )}
       </div>
 
-      {/* Hobby Form Modal */}
       {showHobbyForm && (
         <HobbyForm
           onClose={() => setShowHobbyForm(false)}
