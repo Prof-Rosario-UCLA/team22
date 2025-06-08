@@ -10,13 +10,25 @@ interface HobbyCardProps {
 const getDifficultyColor = (difficulty: string) => {
   switch (difficulty.toLowerCase()) {
     case "beginner":
-      return "text-green-600";
+      return {
+        text: "text-green-700",
+        bg: "bg-green-100",
+      };
     case "intermediate":
-      return "text-yellow-500";
+      return {
+        text: "text-yellow-700",
+        bg: "bg-yellow-100",
+      };
     case "advanced":
-      return "text-red-600";
+      return {
+        text: "text-red-700",
+        bg: "bg-red-100",
+      };
     default:
-      return "text-gray-500";
+      return {
+        text: "text-gray-500",
+        bg: "bg-gray-100",
+      };
   }
 };
 
@@ -25,10 +37,10 @@ const HobbyCard: React.FC<HobbyCardProps> = ({
   children,
   dragHandle,
 }) => {
-  const difficultyColor = getDifficultyColor(hobby.difficulty);
+  const difficultyColors = getDifficultyColor(hobby.difficulty);
   console.log(hobby.difficulty);
   return (
-    <article className="bg-white shadow-md rounded-lg p-4 border border-stone-200 mb-6 space-y-2">
+    <article className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
       <h3 className="text-xl font-bold text-stone-800">{hobby.name}</h3>
       {dragHandle && (
         <div className="mb-2">
@@ -42,7 +54,9 @@ const HobbyCard: React.FC<HobbyCardProps> = ({
         <p className="text-stone-500 text-sm">{hobby.category}</p>
       )}
 
-      <p className={`text-sm font-medium ${difficultyColor}`}>
+      <p
+        className={`text-xs font-medium ${difficultyColors.text} ${difficultyColors.bg} px-2 py-1 rounded-full inline-block`}
+      >
         {hobby.difficulty || "N/A"}
       </p>
 
