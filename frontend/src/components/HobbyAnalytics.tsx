@@ -15,7 +15,25 @@ const HobbyAnalytics: React.FC<HobbyAnalyticsProps> = ({ hobbies }) => {
       try {
         // Load the WebAssembly module and call the analytics function from WASM
         const module = await loadWasmModule();
-        const result = module.calculateHobbyAnalytics(hobbies);
+        // Create the C++ vector to hold the hobbies.
+        const hobbyVector = new module.HobbyVector();
+
+        // Loop through the real 'hobbies' array from the component props.
+        hobbies.forEach((hobby) => {
+          // 1. Sanitize each hobby object to ensure it has the perfect shape and types.
+          const sanitizedHobby = {
+            name: hobby.name || "",
+            category: hobby.category || "",
+            difficulty: hobby.difficulty || "",
+            progress: Number(hobby.progress) || 0,
+          };
+
+          // 2. Push the clean JavaScript object into the C++ vector.
+          hobbyVector.push_back(sanitizedHobby);
+        });
+
+        // 3. Call the C++ function with the manually constructed C++ vector.
+        const result = module.calculateHobbyAnalytics(hobbyVector);
         setAnalytics(result);
       } catch (err) {
         console.error(

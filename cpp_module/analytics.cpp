@@ -19,7 +19,7 @@ struct HobbyAnalytics {
     int completedHobbies;
 };
 
-HobbyAnalytics calculateHobbyAnalytics(const vector<CPP_Hobby>& hobbies) {
+HobbyAnalytics calculateHobbyAnalytics(vector<CPP_Hobby> hobbies) {
     HobbyAnalytics analytic_results;
     analytic_results.totalHobbies = hobbies.size();
 
