@@ -126,7 +126,9 @@ function Dashboard() {
     }
 
     try {
-      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      // const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      // test prod
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const saveHobbyRoute = backendUrl + "/user/save-Hobby";
       const payload = {
         ...newHobby,
