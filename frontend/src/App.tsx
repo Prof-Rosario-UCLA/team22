@@ -3,6 +3,7 @@ import SignInPage from "./components/signIn";
 import Dashboard from "./components/Dashboard";
 import { useAuth } from "./contexts/AuthContext";
 import HomeBoard from "./components/HomeBoard";
+import NewHobby from "./components/NewHobby";
 
 function App() {
   // Adding checking for authentiation state
@@ -16,6 +17,7 @@ function App() {
       <Route path="/" element={<SignInPage />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/home" element={<HomeBoard />} />
+      <Route path="/hobby/new" element={<NewHobby />} />
     </Routes>
   );
 }
