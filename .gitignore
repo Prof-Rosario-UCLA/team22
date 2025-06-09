@@ -1,2 +1,4 @@
 .DS_Store
 dump.rdb
+.vscode
+node_modules
