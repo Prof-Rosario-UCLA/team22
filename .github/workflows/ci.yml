@@ -66,5 +66,5 @@ jobs:
 
       - name: Build Frontend
         run: |
-          source $EMSDK/emsdk_env.sh
+          . $EMSDK/emsdk_env.sh
           npm run build
