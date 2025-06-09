@@ -5,12 +5,12 @@
 using namespace std;
 
 
-struct Hobby {
+struct CPP_Hobby {
     string name;
     string category;
     string difficulty;
     int progress;
-}
+};
 
 // Struct for the calculated analytics result 
 struct HobbyAnalytics {
@@ -19,7 +19,7 @@ struct HobbyAnalytics {
     int completedHobbies;
 };
 
-HobbyAnalytics calculateHobbyAnalytics(const vector<Hobby>& hobbies) {
+HobbyAnalytics calculateHobbyAnalytics(const vector<CPP_Hobby>& hobbies) {
     HobbyAnalytics analytic_results;
     analytic_results.totalHobbies = hobbies.size();
 
@@ -41,4 +41,23 @@ HobbyAnalytics calculateHobbyAnalytics(const vector<Hobby>& hobbies) {
     analytic_results.completedHobbies = completedCount;
 
     return analytic_results;
+}
+
+EMSCRIPTEN_BINDINGS(cpp_module){
+
+    emscripten::value_object<CPP_Hobby>("Hobby")
+        .field("name", &CPP_Hobby::name)
+        .field("category", &CPP_Hobby::category)
+        .field("difficulty", &CPP_Hobby::difficulty)
+        .field("progress", &CPP_Hobby::progress);
+
+    emscripten::value_object<HobbyAnalytics>("HobbyAnalytics")
+        .field("totalHobbies", &HobbyAnalytics::totalHobbies)
+        .field("averageProgress", &HobbyAnalytics::averageProgress)
+        .field("completedHobbies", &HobbyAnalytics::completedHobbies);
+
+    emscripten::register_vector<CPP_Hobby>("HobbyVector");
+
+    emscripten::function("calculateHobbyAnalytics", &calculateHobbyAnalytics);
+
 }
