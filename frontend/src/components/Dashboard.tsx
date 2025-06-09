@@ -10,18 +10,21 @@ import {
   type GeminiHobbySuggestion,
   type HobbySchema,
   PROGRESS_BUCKETS,
-  type ProgressBucket
+  type ProgressBucket,
 } from "../schemas/hobby.types";
 import GeminiHobbyCard from "./GeminiHobbyCard";
 import { DndContext, closestCenter, type DragEndEvent } from "@dnd-kit/core";
 import { DroppableColumn } from "./DroppableColumn";
+import HobbyAnalytics from "./HobbyAnalytics";
 
 function Dashboard() {
   const { userId, token } = useAuth();
   const navigate = useNavigate();
 
   const [hobbies, setHobbies] = useState<HobbySchema[]>([]);
-  const [cachedGeminiHobbies, setCachedGeminiHobbies] = useState<HobbySchema[]>([]);
+  const [cachedGeminiHobbies, setCachedGeminiHobbies] = useState<HobbySchema[]>(
+    []
+  );
   const [isLoadingHobbies, setIsLoadingHobbies] = useState(true);
   const [hobbiesError, setHobbiesError] = useState<string | null>(null);
   const [showHobbyForm, setShowHobbyForm] = useState(false);
@@ -155,7 +158,9 @@ function Dashboard() {
         },
       });
 
-      setHobbies((prevHobbies) => prevHobbies.filter((hobby) => hobby.id !== hobbyId));
+      setHobbies((prevHobbies) =>
+        prevHobbies.filter((hobby) => hobby.id !== hobbyId)
+      );
     } catch (error) {
       console.error("Error deleting hobby:", error);
       alert("Failed to delete hobby.");
@@ -216,7 +221,8 @@ function Dashboard() {
             proofUrl: "",
           };
           const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
-          const cacheGeminiRecommendedHobby = backendUrl + "/user/cache-recommended-hobby";
+          const cacheGeminiRecommendedHobby =
+            backendUrl + "/user/cache-recommended-hobby";
           await axios.post(cacheGeminiRecommendedHobby, payload, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -224,8 +230,10 @@ function Dashboard() {
             },
           });
           setCachedGeminiHobbies((prevCachedHobbies) => {
-            const trimmed = 
-              prevCachedHobbies.length >= 3 ? prevCachedHobbies.slice(1) : prevCachedHobbies;
+            const trimmed =
+              prevCachedHobbies.length >= 3
+                ? prevCachedHobbies.slice(1)
+                : prevCachedHobbies;
             return [...trimmed, payload];
           });
         } catch (parseError) {
@@ -260,10 +268,14 @@ function Dashboard() {
 
   function getTitle(bucket: string) {
     switch (bucket) {
-      case "just-added": return "Just Added";
-      case "tried-it": return "Tried It";
-      case "completed": return "Completed";
-      default: return "Hobbies";
+      case "just-added":
+        return "Just Added";
+      case "tried-it":
+        return "Tried It";
+      case "completed":
+        return "Completed";
+      default:
+        return "Hobbies";
     }
   }
 
@@ -276,14 +288,18 @@ function Dashboard() {
 
     try {
       const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
-      await axios.patch(`${backendUrl}/user/update-hobby/${hobbyId}`, {
-        progress: newProgress,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+      await axios.patch(
+        `${backendUrl}/user/update-hobby/${hobbyId}`,
+        {
+          progress: newProgress,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       setHobbies((prev) =>
         prev.map((hobby) =>
@@ -318,7 +334,9 @@ function Dashboard() {
       </div>
 
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Most Recent AI Suggestions</h2>
+        <h2 className="text-xl font-semibold mb-2">
+          Most Recent AI Suggestions
+        </h2>
         {cachedGeminiHobbies.length === 0 ? (
           <p className="text-gray-600">No recent AI suggestions yet.</p>
         ) : (
@@ -398,6 +416,11 @@ function Dashboard() {
           </DndContext>
         )}
       </div>
+
+      {/* Analytics Component */}
+      {!isLoadingHobbies && hobbies.length > 0 && (
+        <HobbyAnalytics hobbies={hobbies} />
+      )}
 
       {showHobbyForm && (
         <HobbyForm
