@@ -33,7 +33,7 @@ function NewHobby() {
       const saveHobbyRoute = backendUrl + "/user/save-Hobby";
       const payload = {
         ...newHobby,
-        progress: 0,
+        progress: Number(33),
         proofUrl:
           newHobby.proofUrl?.trim() === "" ? undefined : newHobby.proofUrl,
       };
@@ -101,7 +101,7 @@ function NewHobby() {
             name: parsedHobby.name,
             category: parsedHobby.category,
             difficulty: parsedHobby.difficulty,
-            progress: 0,
+            progress: Number(33),
             completed: false,
             proofUrl: "",
           };
