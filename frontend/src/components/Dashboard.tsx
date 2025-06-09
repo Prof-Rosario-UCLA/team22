@@ -96,7 +96,9 @@ function Dashboard() {
     if (!token) return;
 
     try {
-      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      // const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      // test prod
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const route = backendUrl + "/user/cached-hobbies";
       const cachedHobbies = await axios.get(route, {
         headers: {
