@@ -28,3 +28,7 @@ package-lock.json
 .env
 firebase_adminsdk.json
 .DS_Store
+
+# ignore the build output
+/public/analytics.js
+/public/analytics.wasm
