@@ -28,7 +28,7 @@ jobs:
       NODE_ENV: ci
       PORT: 8080
 
-    steps:  
+    steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
@@ -56,8 +56,15 @@ jobs:
         with:
           node-version: 20
 
+      - name: Setup Enscription
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: "3.1.55"
+
       - name: Install Frontend Dependencies
         run: npm install
 
       - name: Build Frontend
-        run: npm run build
+        run: |
+          source ../emsdk_env.sh
+          npm run build
