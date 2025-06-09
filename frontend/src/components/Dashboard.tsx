@@ -53,7 +53,9 @@ function Dashboard() {
     setHobbiesError(null);
 
     try {
-      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      // const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      // test prod
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const hobbiesRoute = backendUrl + "/user/hobbies";
       console.log("Fetching hobbies from:", hobbiesRoute);
       const response = await axios.get(hobbiesRoute, {

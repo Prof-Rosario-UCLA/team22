@@ -19,6 +19,12 @@ app.use(express.json());
 app.use('/user', userRoutes);
 
 const PORT_DEV = process.env.PORT_DEV || 8080;
+/*
 app.listen(PORT_DEV, () => {
   console.log(`Server is running at http://localhost:${PORT_DEV}`);
+});
+*/
+// Testing prod
+app.listen(PORT_DEV, '0.0.0.0', () => {
+  console.log(`Server is running at http://0.0.0.0:${PORT_DEV}`);
 });
