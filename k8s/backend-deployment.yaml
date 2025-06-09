@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: us-west1-docker.pkg.dev/cs144-25s-genekung-458805/team22/backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: FIREBASE_CREDENTIALS_PATH
+              value: /secrets/firebase_adminsdk.json
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /secrets/gemini.json
+            - name: REDIS_URL
+              value: redis://redis:6379
+          volumeMounts:
+            - name: secret-volume
+              mountPath: /secrets
+              readOnly: true
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: backend-secrets
