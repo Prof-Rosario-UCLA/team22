@@ -55,7 +55,7 @@ function Dashboard() {
     try {
       // const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
       // test prod
-      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
+      const backendUrl = "http://34.82.140.220";
       const hobbiesRoute = backendUrl + "/user/hobbies";
       console.log("Fetching hobbies from:", hobbiesRoute);
       const response = await axios.get(hobbiesRoute, {
