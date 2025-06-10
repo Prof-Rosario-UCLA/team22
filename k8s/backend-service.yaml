@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: backend
 spec:
-  type: LoadBalancer
   selector:
     app: backend
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8080
+      port: 80           # service port (what Ingress uses)
+      targetPort: 8080   # actual port in backend container
+  type: ClusterIP # Essential for Ingress backends

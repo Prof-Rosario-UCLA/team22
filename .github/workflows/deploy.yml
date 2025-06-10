@@ -43,7 +43,7 @@ jobs:
               --build-arg VITE_FIREBASE_AUTH_DOMAIN=${{ vars.VITE_FIREBASE_AUTH_DOMAIN }} \
               --build-arg VITE_FIREBASE_PROJECT_ID=${{ vars.VITE_FIREBASE_PROJECT_ID }} \
               --build-arg VITE_DEV_BACKEND_URL=http://localhost:8080 \
-              --build-arg VITE_PROD_BACKEND_URL=http://34.82.140.220 \
+              --build-arg VITE_PROD_BACKEND_URL=https://team22.cs144.org/api \
               -t us-west1-docker.pkg.dev/cs144-25s-genekung-458805/team22/frontend:latest \
               ./frontend \
               --push

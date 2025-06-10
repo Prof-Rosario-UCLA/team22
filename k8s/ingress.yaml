@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    # Use a static IP (optional but recommended)
+    kubernetes.io/ingress.global-static-ip-name: "static-ip-name" # Replace with your static IP name
+    # Link your Google-managed certificate
+    networking.gke.io/managed-certificates: "app-certificate"
+    # Automatic HTTP to HTTPS redirect
+    networking.gke.io/v1.FrontendConfig: "default-redirect-config" # Once certificate is ready, uncomment and redeploy this
+spec:
+  rules:
+    - host: team22.cs144.org
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend # ← this should be the backend service name
+                port:
+                  number: 80 # ← match your backend's service port
+
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
