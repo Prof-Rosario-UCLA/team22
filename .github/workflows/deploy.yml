@@ -50,10 +50,12 @@ jobs:
           location: us-west1-a
           project_id: cs144-25s-genekung-458805
 
-      - name: Deploy to GKE
+      - name: Deploy to GKE and restart to pull new images
         run: |
           kubectl apply -f k8s/redis.yaml
           kubectl apply -f k8s/backend-deployment.yaml
           kubectl apply -f k8s/backend-service.yaml
           kubectl apply -f k8s/frontend-deployment.yaml
           kubectl apply -f k8s/frontend-service.yaml
+          kubectl rollout restart deployment backend
+          kubectl rollout restart deployment frontend

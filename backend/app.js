@@ -9,7 +9,7 @@ const app = express();
 
 // TODO configure cores
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'http://104.196.249.28'],
   credentials: true, // Optional: needed if you're sending cookies or auth headers
 }));
 
