@@ -24,12 +24,19 @@ spec:
               value: /secrets/firebase_adminsdk.json
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/gemini.json
-            - name: REDIS_URL
+            - name: REDIS_URL_PROD
               value: redis://redis:6379
           volumeMounts:
             - name: secret-volume
               mountPath: /secrets
               readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /health       # Replace with your actual health path if different
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
       volumes:
         - name: secret-volume
           secret:

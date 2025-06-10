@@ -7,16 +7,21 @@ dotenv.config();
 
 const app = express();
 
+// Health check route
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 // TODO configure cores
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://104.196.249.28'],
+  origin: ['http://localhost:5173', 'https://team22.cs144.org'],
   credentials: true, // Optional: needed if you're sending cookies or auth headers
 }));
 
 app.use(express.json());
 
 // Mount routes
-app.use('/user', userRoutes);
+app.use('/api/user', userRoutes);
 
 const PORT_DEV = process.env.PORT_DEV || 8080;
 /*
