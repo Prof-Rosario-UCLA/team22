@@ -8,7 +8,7 @@ metadata:
     # Link your Google-managed certificate
     networking.gke.io/managed-certificates: "app-certificate"
     # Automatic HTTP to HTTPS redirect
-    networking.gke.io/v1.FrontendConfig: "default-redirect-config" # Once certificate is ready, uncomment and redeploy this
+    networking.gke.io/frontend-config: "default-redirect-config" # Once certificate is ready, uncomment and redeploy this
 spec:
   rules:
     - host: team22.cs144.org
