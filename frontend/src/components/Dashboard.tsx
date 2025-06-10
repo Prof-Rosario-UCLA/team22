@@ -55,7 +55,7 @@ function Dashboard() {
     try {
       // const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
       // test prod
-      const backendUrl = "http://34.82.140.220";
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const hobbiesRoute = backendUrl + "/user/hobbies";
       console.log("Fetching hobbies from:", hobbiesRoute);
       const response = await axios.get(hobbiesRoute, {
@@ -96,7 +96,7 @@ function Dashboard() {
     if (!token) return;
 
     try {
-      // const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      // const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       // test prod
       const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const route = backendUrl + "/user/cached-hobbies";
@@ -126,7 +126,7 @@ function Dashboard() {
     }
 
     try {
-      // const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      // const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       // test prod
       const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const saveHobbyRoute = backendUrl + "/user/save-Hobby";
@@ -155,7 +155,7 @@ function Dashboard() {
   const handleDeleteHobby = async (hobbyId: string) => {
     console.log("Attempting to delete");
     try {
-      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const deleteUrl = `${backendUrl}/user/delete-hobby/${hobbyId}`;
       await axios.delete(deleteUrl, {
         headers: {
@@ -185,7 +185,7 @@ function Dashboard() {
     try {
       // Connect to the Gemini route
       // Assembling the backend URL from environment variables
-      const backendUrl: string = import.meta.env.VITE_DEV_BACKEND_URL;
+      const backendUrl: string = import.meta.env.VITE_PROD_BACKEND_URL;
       const geminiRoute = backendUrl + "/user/recommend-Hobby";
       const responseData = await axios.get(geminiRoute, {
         headers: {
@@ -226,7 +226,7 @@ function Dashboard() {
             completed: false, // Default completed status
             proofUrl: "",
           };
-          const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+          const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
           const cacheGeminiRecommendedHobby =
             backendUrl + "/user/cache-recommended-hobby";
           await axios.post(cacheGeminiRecommendedHobby, payload, {
@@ -293,7 +293,7 @@ function Dashboard() {
     const newProgress = PROGRESS_BUCKETS[over.id as ProgressBucket];
 
     try {
-      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       await axios.patch(
         `${backendUrl}/user/update-hobby/${hobbyId}`,
         {
