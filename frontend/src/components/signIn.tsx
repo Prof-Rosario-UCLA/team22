@@ -29,7 +29,7 @@ function SignInPage() {
       const userId = user.uid;
       login(token, userId);
       setMessage("Sign in with Google successful!");
-      navigate("/dashboard");
+      navigate("/home");
     } catch (error) {
       console.error("Error signing in with Google:", error);
       setError("Failed to sign in with Google. Please try again.");
@@ -54,7 +54,7 @@ function SignInPage() {
       setMessage(
         isLogin ? "Sign in successful!" : "Account created successfully!"
       );
-      navigate("/dashboard");
+      navigate("/home");
       setEmail("");
       setPassword("");
     } catch (error) {
@@ -97,7 +97,7 @@ function SignInPage() {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border-stone-300 bg-stone-50 py-2 pl-10 pr-3 transition placeholder:text-stone-400 focus:border-emerald-500 focus:ring-emerald-500"
+                className="w-full rounded-lg border-stone-300 bg-stone-50 py-2 px-4 transition placeholder:text-stone-400 focus:border-emerald-500 focus:ring-emerald-500"
                 required
               />
             </div>
@@ -114,7 +114,7 @@ function SignInPage() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border-stone-300 bg-stone-50 py-2 pl-10 pr-3 transition placeholder:text-stone-400 focus:border-emerald-500 focus:ring-emerald-500"
+                className="w-full rounded-lg border-stone-300 bg-stone-50 py-2 px-4 transition placeholder:text-stone-400 focus:border-emerald-500 focus:ring-emerald-500"
                 required
               />
             </div>

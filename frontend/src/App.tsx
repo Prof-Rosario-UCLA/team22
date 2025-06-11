@@ -26,8 +26,22 @@ function App() {
         }
       />
 
-      <Route path="/home" element={<HomeBoard />} />
-      <Route path="/hobby/new" element={<NewHobby />} />
+      <Route
+        path="/home"
+        element={
+          <PrivateRoute>
+            <HomeBoard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/hobby/new"
+        element={
+          <PrivateRoute>
+            <NewHobby />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }
