@@ -30,9 +30,13 @@ function SignInPage() {
       login(token, userId);
       setMessage("Sign in with Google successful!");
       navigate("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error signing in with Google:", error);
-      setError("Failed to sign in with Google. Please try again.");
+      if (error.code === "auth/network-request-failed") {
+        setError("Network error. Please check your connection and try again.");
+      } else {
+        setError("Failed to sign in with Google. Please try again.");
+      }
     }
   };
 
@@ -57,16 +61,22 @@ function SignInPage() {
       navigate("/dashboard");
       setEmail("");
       setPassword("");
-    } catch (error) {
+    } catch (error: any) {
       console.error(
         `Error ${isLogin ? "signing in" : "signing up"} with email:`,
         error
       );
-      setError(
-        isLogin
-          ? "Failed to sign in. Please check your email and password."
-          : "Failed to create account. Password needs at least 6 characters."
-      );
+      if (error.code === "auth/network-request-failed") {
+        setError("Network error. Please check your connection and try again.");
+      } else if (error.code === "auth/invalid-credential") {
+        setError("Invalid credentials. Please check your email and password.");
+      } else if (error.code === "auth/email-already-in-use") {
+        setError(
+          "This email is already in use. Please sign in or use another."
+        );
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
