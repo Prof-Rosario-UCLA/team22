@@ -319,8 +319,8 @@ function Dashboard() {
   };
 
   return (
-    <section className="dashboard-container p-4">
-      <div className="flex justify-between items-center mb-4">
+    <main className="dashboard-container p-4">
+      <section className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Welcome!</h1>
         <button
           onClick={handleSignOut}
@@ -328,7 +328,7 @@ function Dashboard() {
         >
           Sign Out
         </button>
-      </div>
+      </section>
       <hr className="my-6" />
 
       <div className="mb-6">
@@ -340,7 +340,7 @@ function Dashboard() {
         </button>
       </div>
 
-      <div className="mb-8">
+      <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2">
           Most Recent AI Suggestions
         </h2>
@@ -360,9 +360,9 @@ function Dashboard() {
             ))}
           </div>
         )}
-      </div>
+      </section>
 
-      <div className="my-8 p-6 bg-gray-800 rounded-lg shadow-md">
+      <section className="my-8 p-6 bg-gray-800 rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold text-teal-400 mb-4">
           Generate Hobby Recommendation with Gemini
         </h2>
@@ -393,9 +393,9 @@ function Dashboard() {
             <strong>Error:</strong> {geminiError}
           </div>
         )}
-      </div>
+      </section>
 
-      <div className="hobbies-section">
+      <section className="hobbies-section">
         <h2 className="text-xl font-semibold mb-3">My Hobbies</h2>
         {isLoadingHobbies && <p>Loading hobbies...</p>}
         {hobbiesError && (
@@ -422,7 +422,7 @@ function Dashboard() {
             </div>
           </DndContext>
         )}
-      </div>
+      </section>
 
       {/* Analytics Component */}
       {!isLoadingHobbies && hobbies.length > 0 && (
@@ -435,7 +435,7 @@ function Dashboard() {
           onSave={handleSaveHobby}
         />
       )}
-    </section>
+    </main>
   );
 }
 
