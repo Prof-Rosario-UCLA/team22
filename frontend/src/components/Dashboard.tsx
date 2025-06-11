@@ -319,8 +319,8 @@ function Dashboard() {
   };
 
   return (
-    <main className="dashboard-container p-4">
-      <header className="flex justify-between items-center mb-4">
+    <section className="dashboard-container p-4">
+      <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Welcome!</h1>
         <button
           onClick={handleSignOut}
@@ -328,7 +328,7 @@ function Dashboard() {
         >
           Sign Out
         </button>
-      </header>
+      </div>
       <hr className="my-6" />
 
       <div className="mb-6">
@@ -340,8 +340,8 @@ function Dashboard() {
         </button>
       </div>
 
-      <section className="mb-8" aria-labelledby="ai-suggestions-title">
-        <h2 id="ai-suggestions-title" className="text-xl font-semibold mb-2">
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">
           Most Recent AI Suggestions
         </h2>
         {cachedGeminiHobbies.length === 0 ? (
@@ -360,16 +360,10 @@ function Dashboard() {
             ))}
           </div>
         )}
-      </section>
+      </div>
 
-      <section
-        className="my-8 p-6 bg-gray-800 rounded-lg shadow-md"
-        aria-labelledby="gemini-generator-title"
-      >
-        <h2
-          id="gemini-generator-title"
-          className="text-2xl font-semibold text-teal-400 mb-4"
-        >
+      <div className="my-8 p-6 bg-gray-800 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold text-teal-400 mb-4">
           Generate Hobby Recommendation with Gemini
         </h2>
         <button
@@ -381,12 +375,28 @@ function Dashboard() {
             ? "Connecting to Gemini..."
             : "Get AI Hobby Suggestion"}
         </button>
-      </section>
+        {geminiResponse && (
+          <div className="mt-4 p-4 bg-gray-700 rounded text-teal-300">
+            <strong>Gemini Response:</strong>{" "}
+            <div className="mt-6">
+              {" "}
+              {/* Added some margin top for the card */}
+              <GeminiHobbyCard
+                suggestion={geminiResponse}
+                saveHobby={handleSaveHobby}
+              />
+            </div>
+          </div>
+        )}
+        {geminiError && (
+          <div className="mt-4 p-4 bg-red-900 rounded text-red-300">
+            <strong>Error:</strong> {geminiError}
+          </div>
+        )}
+      </div>
 
-      <section className="hobbies-section" aria-labelledby="my-hobbies-title">
-        <h2 id="my-hobbies-title" className="text-xl font-semibold mb-3">
-          My Hobbies
-        </h2>
+      <div className="hobbies-section">
+        <h2 className="text-xl font-semibold mb-3">My Hobbies</h2>
         {isLoadingHobbies && <p>Loading hobbies...</p>}
         {hobbiesError && (
           <p style={{ color: "red" }}>Error loading hobbies: {hobbiesError}</p>
@@ -412,12 +422,11 @@ function Dashboard() {
             </div>
           </DndContext>
         )}
-      </section>
+      </div>
 
+      {/* Analytics Component */}
       {!isLoadingHobbies && hobbies.length > 0 && (
-        <section aria-label="Hobby Analytics">
-          <HobbyAnalytics hobbies={hobbies} />
-        </section>
+        <HobbyAnalytics hobbies={hobbies} />
       )}
 
       {showHobbyForm && (
@@ -426,7 +435,7 @@ function Dashboard() {
           onSave={handleSaveHobby}
         />
       )}
-    </main>
+    </section>
   );
 }
 
