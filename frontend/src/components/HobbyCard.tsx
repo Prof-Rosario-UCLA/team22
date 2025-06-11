@@ -30,7 +30,7 @@ const HobbyCard: React.FC<HobbyCardProps> = ({
       )}
 
       <p
-        className={`text-xs font-medium ${difficultyColors.text} ${difficultyColors.bg} px-2 py-1 rounded-full inline-block`}
+        className={`text-xs font-medium ${difficultyColors.text} ${difficultyColors.bg} px-2 py-1 rounded-full inline-block w-fit`}
       >
         {hobby.difficulty || "N/A"}
       </p>

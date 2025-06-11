@@ -23,7 +23,7 @@ function HomeBoard() {
     setHobbiesError(null);
 
     try {
-      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const hobbiesRoute = backendUrl + "/user/hobbies";
       const response = await axios.get(hobbiesRoute, {
         headers: {
