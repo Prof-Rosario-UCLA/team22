@@ -12,16 +12,6 @@ All API endpoints require the user to be authenticated via **Firebase Authentica
 Authorization: Bearer <firebase_id_token>
 ```
 # API Reference
-
-> All endpoints require authentication via Firebase.
-> Include the Firebase ID token in the `Authorization` header:
->
-> ```
-> Authorization: Bearer <your_id_token>
-> ```
-
-### 🔒 Authentication Required for All Endpoints
-
 ---
 
 ### `GET /hobbies`
