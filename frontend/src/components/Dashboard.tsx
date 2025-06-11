@@ -415,7 +415,7 @@ function Dashboard() {
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
           >
-            <div className="flex flex-col lg:flex-row gap-4">
+            <div className="flex flex-col lg:flex-row gap-4 max-h-[600px] overflow-y-auto p-2">
               {Object.entries(PROGRESS_BUCKETS).map(([bucket, progress]) => (
                 <DroppableColumn
                   key={bucket}
