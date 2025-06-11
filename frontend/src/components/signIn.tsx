@@ -71,54 +71,84 @@ function SignInPage() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen bg-stone-300">
-      {/* Use <section> for a self-contained, thematic grouping of content. */}
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-stone-100 via-stone-200 to-stone-300 p-4">
       <section
-        className="flex flex-col py-8 px-12 shadow-lg rounded-lg w-96 bg-stone-50"
+        className="w-full max-w-md rounded-2xl bg-white/60 p-8 pt-6 shadow-2xl backdrop-blur-lg border border-white/50"
         aria-labelledby="auth-heading"
       >
         <Welcome />
 
-        <h1 id="auth-heading" className="font-bold mb-4 text-2xl text-center">
-          {isLogin ? "Sign in" : "Create Account"}
+        <h1
+          id="auth-heading"
+          className="text-2xl font-bold text-stone-800 text-center mb-6"
+        >
+          {isLogin ? "Sign in to Continue" : "Create Your Account"}
         </h1>
 
-        <form className="flex flex-col gap-2" onSubmit={handleEmailAuth}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border-2 border-stone-200 rounded-lg p-2"
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border-2 border-stone-200 rounded-lg p-2"
-            required
-          />
-          {message && <p className="text-emerald-500 text-xs">{message}</p>}
-          {error && <p className="text-red-500 text-xs">{error}</p>}
-          <button
-            className="bg-emerald-400 mt-4 py-2 rounded-lg text-white hover:bg-emerald-600"
-            type="submit"
-          >
-            {isLogin ? "Sign In" : "Create Account"}
-          </button>
-          <button
-            onClick={handleSignInWithGoogle}
-            className="flex justify-center items-center border-2 border-stone-200 rounded-lg p-2"
-          >
-            <img src="/google.svg" alt="Google Logo" className="w-5 h-5 mr-2" />
-            Sign {isLogin ? "in" : "up"} with Google
-          </button>
+        <form className="space-y-4" onSubmit={handleEmailAuth}>
+          <div>
+            <label htmlFor="email" className="sr-only">
+              Email
+            </label>
+            <div className="relative">
+              <input
+                id="email"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded-lg border-stone-300 bg-stone-50 py-2 pl-10 pr-3 transition placeholder:text-stone-400 focus:border-emerald-500 focus:ring-emerald-500"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="password" className="sr-only">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full rounded-lg border-stone-300 bg-stone-50 py-2 pl-10 pr-3 transition placeholder:text-stone-400 focus:border-emerald-500 focus:ring-emerald-500"
+                required
+              />
+            </div>
+          </div>
+
+          {message && (
+            <p className="text-emerald-600 text-sm font-medium">{message}</p>
+          )}
+          {error && <p className="text-red-600 text-sm font-medium">{error}</p>}
+
+          <div className="space-y-3 pt-4">
+            <button
+              className="w-full rounded-lg bg-emerald-500 py-3 text-base font-bold text-white shadow-lg transition-transform hover:scale-105 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+              type="submit"
+            >
+              {isLogin ? "Sign In" : "Create Account"}
+            </button>
+            <button
+              onClick={handleSignInWithGoogle}
+              type="button"
+              className="group flex w-full items-center justify-center gap-2 rounded-lg border border-stone-300 bg-white py-3 text-base font-bold text-stone-700 shadow-sm transition hover:bg-stone-50 hover:border-stone-400"
+            >
+              <img
+                src="/google.svg"
+                alt="Google Logo"
+                className="w-5 h-5 transition-transform group-hover:scale-110"
+              />
+              Sign {isLogin ? "in" : "up"} with Google
+            </button>
+          </div>
         </form>
 
-        <div className="mt-4 text-center text-sm">
-          <span className="text-stone-500">
+        <div className="mt-6 text-center text-sm">
+          <span className="text-stone-600">
             {isLogin ? "Need an account? " : "Already have an account? "}
           </span>
           <button
@@ -129,7 +159,7 @@ function SignInPage() {
               setEmail("");
               setPassword("");
             }}
-            className="text-stone-500 hover:text-stone-700 underline"
+            className="font-semibold text-emerald-600 hover:text-emerald-700 hover:underline"
           >
             {isLogin ? "Sign up" : "Sign in"}
           </button>
