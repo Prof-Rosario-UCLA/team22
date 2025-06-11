@@ -54,10 +54,15 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
       {/* It has ARIA attributes to make it accessible. */}
       <dialog
         open={isVisible} // The 'open' attribute controls the dialog's visibility
-        className="bg-white p-6 rounded-lg w-[90%] max-w-md shadow-xl transform transition-all duration-300"
+        className="bg-white p-6 rounded-lg w-[90%] max-w-md shadow-xl transform transition-all duration-300 m-4"
         style={{
           opacity: isVisible ? 1 : 0,
-          transform: isVisible ? "translateY(0)" : "translateY(-20px)",
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: isVisible
+            ? "translate(-50%, -50%)"
+            : "translate(-50%, -60%)",
         }}
         aria-labelledby="dialog-title"
         aria-modal="true"

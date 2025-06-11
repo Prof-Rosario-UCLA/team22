@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,6 +8,8 @@ import {
 } from "../schemas/hobby.types";
 import GeminiHobbyCard from "./GeminiHobbyCard";
 import HobbyForm from "./HobbyForm";
+import SideNav from "./SideNav";
+import HobbyCard from "./HobbyCard";
 
 function NewHobby() {
   const { token } = useAuth();
@@ -20,6 +22,31 @@ function NewHobby() {
     useState<GeminiHobbySuggestion | null>(null);
   const [geminiError, setGeminiError] = useState<string | null>(null);
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
+  const [cachedGeminiHobbies, setCachedGeminiHobbies] = useState<HobbySchema[]>(
+    []
+  );
+
+  const fetchCachedGeminiHobbies = async () => {
+    if (!token) return;
+
+    try {
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
+      const route = backendUrl + "/user/cached-hobbies";
+      const cachedHobbies = await axios.get(route, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setCachedGeminiHobbies(cachedHobbies.data || []);
+    } catch (err) {
+      console.error("Error fetching cached Gemini hobbies:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCachedGeminiHobbies();
+  }, [token]);
 
   const handleSaveHobby = async (newHobby: HobbySchema) => {
     if (!token) {
@@ -28,7 +55,7 @@ function NewHobby() {
     }
 
     try {
-      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const saveHobbyRoute = backendUrl + "/user/save-Hobby";
       const payload = {
         ...newHobby,
@@ -64,7 +91,7 @@ function NewHobby() {
     setGeminiError(null);
 
     try {
-      const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
       const geminiRoute = backendUrl + "/user/recommend-Hobby";
       const responseData = await axios.get(geminiRoute, {
         headers: {
@@ -112,6 +139,14 @@ function NewHobby() {
               "Content-Type": "application/json",
             },
           });
+          // Update cached hobbies state
+          setCachedGeminiHobbies((prevCachedHobbies) => {
+            const trimmed =
+              prevCachedHobbies.length >= 3
+                ? prevCachedHobbies.slice(1)
+                : prevCachedHobbies;
+            return [...trimmed, payload];
+          });
         } catch (parseError) {
           console.error("Failed to parse Gemini JSON response:", parseError);
           setGeminiError("Received an invalid format from Gemini suggestion.");
@@ -141,58 +176,85 @@ function NewHobby() {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-4xl mx-auto">
-      <header className="p-4">
-        <h1 className="font-bold text-2xl text-stone-800">Add New Hobby</h1>
-      </header>
+    <div className="flex">
+      <SideNav />
+      <div className="ml-64 flex-1 p-8">
+        <header className="mb-6">
+          <h1 className="font-bold text-2xl text-stone-800">Add New Hobby</h1>
+        </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
-        <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-          <h2 className="text-xl font-semibold mb-4">Add Hobby Manually</h2>
-          <button
-            onClick={() => setShowHobbyForm(true)}
-            className="bg-emerald-400 py-2 px-4 rounded-lg font-bold text-stone-50 hover:bg-emerald-600 transition-colors w-full"
-          >
-            Create New Hobby
-          </button>
+        <section className="mb-8">
+          <h2 className="text-xl font-semibold mb-2">
+            Most Recent AI Suggestions
+          </h2>
+          {cachedGeminiHobbies.length === 0 ? (
+            <p className="text-gray-600">No recent AI suggestions yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {cachedGeminiHobbies.map((hobby) => (
+                <HobbyCard key={hobby.id} hobby={hobby}>
+                  <button
+                    onClick={() => handleSaveHobby(hobby)}
+                    className="bg-emerald-400 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Save to My Hobbies
+                  </button>
+                </HobbyCard>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
+            <h2 className="text-xl font-semibold mb-4">Add Hobby Manually</h2>
+            <button
+              onClick={() => setShowHobbyForm(true)}
+              className="bg-emerald-400 py-2 px-4 rounded-lg font-bold text-stone-50 hover:bg-emerald-600 transition-colors w-full"
+            >
+              Create New Hobby
+            </button>
+          </div>
+
+          <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
+            <h2 className="text-xl font-semibold mb-4">
+              Get AI Recommendation
+            </h2>
+            <button
+              onClick={handleGeminiRequest}
+              disabled={isGeminiLoading}
+              className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 w-full"
+            >
+              {isGeminiLoading
+                ? "Getting Recommendation..."
+                : "Get AI Hobby Suggestion"}
+            </button>
+          </div>
+
+          {geminiResponse && (
+            <div className="md:col-span-2 bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
+              <h3 className="text-lg font-semibold mb-4">AI Recommendation</h3>
+              <GeminiHobbyCard
+                suggestion={geminiResponse}
+                saveHobby={handleSaveHobby}
+              />
+            </div>
+          )}
+
+          {geminiError && (
+            <div className="md:col-span-2 bg-red-50 p-4 rounded-lg shadow-md">
+              <p className="text-red-600">{geminiError}</p>
+            </div>
+          )}
         </div>
 
-        <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-          <h2 className="text-xl font-semibold mb-4">Get AI Recommendation</h2>
-          <button
-            onClick={handleGeminiRequest}
-            disabled={isGeminiLoading}
-            className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 w-full"
-          >
-            {isGeminiLoading
-              ? "Getting Recommendation..."
-              : "Get AI Hobby Suggestion"}
-          </button>
-        </div>
-
-        {geminiResponse && (
-          <div className="md:col-span-2 bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-            <h3 className="text-lg font-semibold mb-4">AI Recommendation</h3>
-            <GeminiHobbyCard
-              suggestion={geminiResponse}
-              saveHobby={handleSaveHobby}
-            />
-          </div>
-        )}
-
-        {geminiError && (
-          <div className="md:col-span-2 bg-red-50 p-4 rounded-lg shadow-md">
-            <p className="text-red-600">{geminiError}</p>
-          </div>
+        {showHobbyForm && (
+          <HobbyForm
+            onClose={() => setShowHobbyForm(false)}
+            onSave={handleSaveHobby}
+          />
         )}
       </div>
-
-      {showHobbyForm && (
-        <HobbyForm
-          onClose={() => setShowHobbyForm(false)}
-          onSave={handleSaveHobby}
-        />
-      )}
     </div>
   );
 }
