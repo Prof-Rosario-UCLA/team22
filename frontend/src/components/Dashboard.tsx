@@ -319,10 +319,10 @@ function Dashboard() {
   };
 
   return (
-    <body className="flex flex-col h-screen bg-gray-100">
-      <main className="flex-grow overflow-y-auto">
-        <section className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-4 sm:gap-0">
-          <h1 className="text-2xl font-bold">Welcome!</h1>
+    <div className="flex flex-col h-screen bg-gray-100">
+      <main className="flex-grow overflow-y-auto px-4">
+        <section className="flex flex-col items-start sm:flex-row sm:justify-between sm:items-center mb-4 gap-2 sm:gap-0">
+          <h1 className="text-2xl font-bold mb-2 sm:mb-0">Welcome!</h1>
           <button
             onClick={handleSignOut}
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -331,9 +331,9 @@ function Dashboard() {
           </button>
         </section>
 
-        <hr className="my-6" />
+        <hr className="my-4" />
 
-        <div className="mb-6">
+        <div className="mb-4">
           <button
             onClick={() => setShowHobbyForm(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -364,7 +364,7 @@ function Dashboard() {
           )}
         </section>
 
-        <section className="my-8 p-6 bg-gray-800 rounded-lg shadow-md">
+        <section className="my-4 p-4 lg:my-8 lg:p-6 bg-gray-800 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-teal-400 mb-4">
             Generate Hobby Recommendation with Gemini
           </h2>
@@ -417,7 +417,7 @@ function Dashboard() {
               collisionDetection={closestCenter}
               onDragEnd={handleDragEnd}
             >
-              <div className="flex flex-col lg:flex-row gap-4 max-h-[600px] overflow-y-auto p-2">
+              <div className="flex flex-col lg:flex-row gap-4 p-2">
                 {Object.entries(PROGRESS_BUCKETS).map(([bucket, progress]) => (
                   <DroppableColumn
                     key={bucket}
