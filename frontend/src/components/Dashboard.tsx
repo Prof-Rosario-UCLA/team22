@@ -320,7 +320,7 @@ function Dashboard() {
 
   return (
     <body className="flex flex-col h-screen bg-gray-100">
-      <header className="bg-gray-800 text-white p-4 shadow-md">
+      <main className="flex-grow overflow-y-auto">
         <section className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-4 sm:gap-0">
           <h1 className="text-2xl font-bold">Welcome!</h1>
           <button
@@ -330,8 +330,7 @@ function Dashboard() {
             Sign Out
           </button>
         </section>
-      </header>
-      <main className="flex-grow overflow-y-auto">
+
         <hr className="my-6" />
 
         <div className="mb-6">
