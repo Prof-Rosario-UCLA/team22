@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   signInWithPopup,
   signInWithEmailAndPassword,
@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { auth, googleProvider } from "../firebaseConfig";
 import { useAuth } from "../contexts/AuthContext";
+import type { StorageType } from "../contexts/AuthContext";
 import Welcome from "./Welcome";
 
 function SignInPage() {
@@ -15,9 +16,20 @@ function SignInPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [storagePreference, setStoragePreference] = useState<StorageType | null>(null);
+
 
   const navigate = useNavigate();
   const { login } = useAuth();
+
+    useEffect(() => {
+    const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+    const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
+
+    if (token && userId) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const handleSignInWithGoogle = async () => {
     setError(null);
@@ -27,7 +39,7 @@ function SignInPage() {
       const user = userCred.user;
       const token = await user.getIdToken();
       const userId = user.uid;
-      login(token, userId);
+      login(token, userId, storagePreference || "sessionStorage");
       setMessage("Sign in with Google successful!");
       navigate("/dashboard");
     } catch (error: any) {
@@ -54,7 +66,7 @@ function SignInPage() {
       const user = userCred.user;
       const token = await user.getIdToken();
       const userId = user.uid;
-      login(token, userId);
+      login(token, userId, storagePreference || "sessionStorage");
       setMessage(
         isLogin ? "Sign in successful!" : "Account created successfully!"
       );
@@ -175,6 +187,26 @@ function SignInPage() {
           </button>
         </div>
       </section>
+      {storagePreference === null && (
+  <div className="fixed bottom-0 left-0 right-0 bg-stone-500 text-stone-200 text-sm p-4 flex justify-between items-center z-50">
+    <p>This app uses local storage to persist login data. Allow it to remember you?</p>
+    <div className="space-x-2">
+      <button
+        onClick={() => setStoragePreference("localStorage")}
+        className="bg-emerald-500 px-3 py-1 rounded hover:bg-emerald-600"
+      >
+        Accept
+      </button>
+      <button
+        onClick={() => setStoragePreference("sessionStorage")}
+        className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+      >
+        Deny
+      </button>
+    </div>
+  </div>
+)}
+
     </main>
   );
 }
