@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { auth, googleProvider } from "../firebaseConfig";
 import { useAuth } from "../contexts/AuthContext";
+import Welcome from "./Welcome";
 
 function SignInPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -70,9 +71,15 @@ function SignInPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-stone-300">
-      <div className="flex flex-col py-16 px-12 shadow-lg rounded-lg w-96 bg-stone-50">
-        <h1 className="font-bold mb-4 text-2xl">
+    <main className="flex flex-col items-center justify-center h-screen bg-stone-300">
+      {/* Use <section> for a self-contained, thematic grouping of content. */}
+      <section
+        className="flex flex-col py-8 px-12 shadow-lg rounded-lg w-96 bg-stone-50"
+        aria-labelledby="auth-heading"
+      >
+        <Welcome />
+
+        <h1 id="auth-heading" className="font-bold mb-4 text-2xl text-center">
           {isLogin ? "Sign in" : "Create Account"}
         </h1>
 
@@ -127,8 +134,8 @@ function SignInPage() {
             {isLogin ? "Sign up" : "Sign in"}
           </button>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
