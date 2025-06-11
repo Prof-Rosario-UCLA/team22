@@ -16,15 +16,17 @@ function SignInPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [storagePreference, setStoragePreference] = useState<StorageType | null>(null);
-
+  const [storagePreference, setStoragePreference] =
+    useState<StorageType | null>(null);
 
   const navigate = useNavigate();
   const { login } = useAuth();
 
-    useEffect(() => {
-    const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
-    const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
+  useEffect(() => {
+    const token =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+    const userId =
+      localStorage.getItem("userId") || sessionStorage.getItem("userId");
 
     if (token && userId) {
       navigate("/dashboard");
@@ -45,6 +47,8 @@ function SignInPage() {
     } catch (error: any) {
       console.error("Error signing in with Google:", error);
       if (error.code === "auth/network-request-failed") {
+        setError("Network error. Please check your connection and try again.");
+      } else if (error.code === "auth/internal-error") {
         setError("Network error. Please check your connection and try again.");
       } else {
         setError("Failed to sign in with Google. Please try again.");
@@ -188,25 +192,27 @@ function SignInPage() {
         </div>
       </section>
       {storagePreference === null && (
-  <div className="fixed bottom-0 left-0 right-0 bg-stone-500 text-stone-200 text-sm p-4 flex justify-between items-center z-50">
-    <p>This app uses local storage to persist login data. Allow it to remember you?</p>
-    <div className="space-x-2">
-      <button
-        onClick={() => setStoragePreference("localStorage")}
-        className="bg-emerald-500 px-3 py-1 rounded hover:bg-emerald-600"
-      >
-        Accept
-      </button>
-      <button
-        onClick={() => setStoragePreference("sessionStorage")}
-        className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
-      >
-        Deny
-      </button>
-    </div>
-  </div>
-)}
-
+        <div className="fixed bottom-0 left-0 right-0 bg-stone-500 text-stone-200 text-sm p-4 flex justify-between items-center z-50">
+          <p>
+            This app uses local storage to persist login data. Allow it to
+            remember you?
+          </p>
+          <div className="space-x-2">
+            <button
+              onClick={() => setStoragePreference("localStorage")}
+              className="bg-emerald-500 px-3 py-1 rounded hover:bg-emerald-600"
+            >
+              Accept
+            </button>
+            <button
+              onClick={() => setStoragePreference("sessionStorage")}
+              className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+            >
+              Deny
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
