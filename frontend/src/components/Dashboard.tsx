@@ -18,7 +18,7 @@ import { DroppableColumn } from "./DroppableColumn";
 import HobbyAnalytics from "./HobbyAnalytics";
 
 function Dashboard() {
-  const { userId, token } = useAuth();
+  const { userId, token, logout } = useAuth();
   const navigate = useNavigate();
 
   const [hobbies, setHobbies] = useState<HobbySchema[]>([]);
@@ -36,6 +36,7 @@ function Dashboard() {
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
 
   const handleSignOut = async () => {
+    logout();
     await signOut(auth);
     navigate("/");
   };
