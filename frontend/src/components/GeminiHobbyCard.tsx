@@ -82,6 +82,7 @@ const GeminiHobbyCard: React.FC<GeminiHobbyCardProps> = ({
         <button
           onClick={handleSaveHobby}
           className="mt-4 w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 text-sm"
+          aria-label={`Save ${suggestion.name} to My Hobbies`}
         >
           Add to My Hobbies
         </button>

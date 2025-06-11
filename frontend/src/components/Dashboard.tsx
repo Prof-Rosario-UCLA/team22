@@ -320,7 +320,7 @@ function Dashboard() {
 
   return (
     <main className="dashboard-container p-4">
-      <section className="flex justify-between items-center mb-4">
+      <section className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-4 sm:gap-0">
         <h1 className="text-2xl font-bold">Welcome!</h1>
         <button
           onClick={handleSignOut}
@@ -397,10 +397,16 @@ function Dashboard() {
 
       <section className="hobbies-section">
         <h2 className="text-xl font-semibold mb-3">My Hobbies</h2>
-        {isLoadingHobbies && <p>Loading hobbies...</p>}
-        {hobbiesError && (
-          <p style={{ color: "red" }}>Error loading hobbies: {hobbiesError}</p>
-        )}
+        <div aria-live="polite">
+          {isLoadingHobbies && <p>Loading hobbies...</p>}
+        </div>
+        <div aria-live="assertive">
+          {geminiError && (
+            <div className="mt-4 p-4 bg-red-900 rounded text-red-300">
+              <strong>Error:</strong> {geminiError}
+            </div>
+          )}
+        </div>
         {!isLoadingHobbies && !hobbiesError && hobbies.length === 0 && (
           <p>No hobbies found. You can add hobbies in your profile!</p>
         )}
@@ -409,7 +415,7 @@ function Dashboard() {
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
           >
-            <div className="flex gap-4">
+            <div className="flex flex-col lg:flex-row gap-4">
               {Object.entries(PROGRESS_BUCKETS).map(([bucket, progress]) => (
                 <DroppableColumn
                   key={bucket}
