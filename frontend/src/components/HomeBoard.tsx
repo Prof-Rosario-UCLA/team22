@@ -151,7 +151,17 @@ function HomeBoard() {
             Most Recent AI Suggestions
           </h2>
           {cachedGeminiHobbies.length === 0 ? (
-            <p className="text-gray-600">No recent AI suggestions yet.</p>
+            <div className="flex flex-col items-center justify-center py-8">
+              <p className="text-stone-500 mb-4">
+                Get personalized hobby recommendations!
+              </p>
+              <button
+                onClick={() => navigate("/hobby/new")}
+                className="bg-teal-500 py-2 px-4 rounded-lg text-white hover:bg-teal-600"
+              >
+                Get AI Hobby Suggestion
+              </button>
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {cachedGeminiHobbies.map((hobby) => (
