@@ -107,6 +107,31 @@ function HomeBoard() {
     }
   };
 
+  const handleDeleteHobby = async (hobbyId: string) => {
+    if (!token) {
+      console.error("No token found, cannot delete hobby.");
+      return;
+    }
+
+    try {
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
+      const deleteUrl = `${backendUrl}/user/delete-hobby/${hobbyId}`;
+      await axios.delete(deleteUrl, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      setHobbies((prevHobbies) =>
+        prevHobbies.filter((hobby) => hobby.id !== hobbyId)
+      );
+    } catch (error) {
+      console.error("Error deleting hobby:", error);
+      alert("Failed to delete hobby.");
+    }
+  };
+
   useEffect(() => {
     fetchHobbies();
     fetchCachedGeminiHobbies();
@@ -209,7 +234,27 @@ function HomeBoard() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {hobbies.map((hobby) => (
-                <HobbyCard key={hobby.id} hobby={hobby} />
+                <HobbyCard key={hobby.id} hobby={hobby}>
+                  <button
+                    onClick={() => hobby.id && handleDeleteHobby(hobby.id)}
+                    className="absolute top-4 right-4 text-stone-400 hover:text-stone-600 transition-colors"
+                    aria-label={`Delete ${hobby.name}`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </button>
+                </HobbyCard>
               ))}
             </div>
           )}
