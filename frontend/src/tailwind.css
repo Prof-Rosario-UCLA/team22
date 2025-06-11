@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer base {
   html {
     box-sizing: border-box;
@@ -13,5 +17,12 @@
   }
   :root {
     --font-sans: "Spline Sans", "ui-sans-serif", "system-ui", sans-serif;
+  }
+  :focus-visible {
+    @apply ring-2 ring-offset-2 ring-blue-500 ring-offset-white;
+
+    @apply dark:ring-offset-slate-900;
+
+    outline: none;
   }
 }
