@@ -377,7 +377,7 @@ function Dashboard() {
         </button>
         {geminiResponse && (
           <div className="mt-4 p-4 bg-gray-700 rounded text-teal-300">
-            <strong>Gemini Response:</strong>{" "}
+            <strong>Gemini Response:</strong>
             <div className="mt-6">
               {" "}
               {/* Added some margin top for the card */}
