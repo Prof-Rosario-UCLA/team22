@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   signInWithPopup,
   signInWithEmailAndPassword,
@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { auth, googleProvider } from "../firebaseConfig";
 import { useAuth } from "../contexts/AuthContext";
+import type { StorageType } from "../contexts/AuthContext";
 import Welcome from "./Welcome";
 
 function SignInPage() {
@@ -15,9 +16,22 @@ function SignInPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [storagePreference, setStoragePreference] =
+    useState<StorageType | null>(null);
 
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  useEffect(() => {
+    const token =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+    const userId =
+      localStorage.getItem("userId") || sessionStorage.getItem("userId");
+
+    if (token && userId) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const handleSignInWithGoogle = async () => {
     setError(null);
@@ -27,12 +41,18 @@ function SignInPage() {
       const user = userCred.user;
       const token = await user.getIdToken();
       const userId = user.uid;
-      login(token, userId);
+      login(token, userId, storagePreference || "sessionStorage");
       setMessage("Sign in with Google successful!");
       navigate("/home");
     } catch (error) {
       console.error("Error signing in with Google:", error);
-      setError("Failed to sign in with Google. Please try again.");
+      if (error.code === "auth/network-request-failed") {
+        setError("Network error. Please check your connection and try again.");
+      } else if (error.code === "auth/internal-error") {
+        setError("Network error. Please check your connection and try again.");
+      } else {
+        setError("Failed to sign in with Google. Please try again.");
+      }
     }
   };
 
@@ -50,23 +70,29 @@ function SignInPage() {
       const user = userCred.user;
       const token = await user.getIdToken();
       const userId = user.uid;
-      login(token, userId);
+      login(token, userId, storagePreference || "sessionStorage");
       setMessage(
         isLogin ? "Sign in successful!" : "Account created successfully!"
       );
       navigate("/home");
       setEmail("");
       setPassword("");
-    } catch (error) {
+    } catch (error: any) {
       console.error(
         `Error ${isLogin ? "signing in" : "signing up"} with email:`,
         error
       );
-      setError(
-        isLogin
-          ? "Failed to sign in. Please check your email and password."
-          : "Failed to create account. Password needs at least 6 characters."
-      );
+      if (error.code === "auth/network-request-failed") {
+        setError("Network error. Please check your connection and try again.");
+      } else if (error.code === "auth/invalid-credential") {
+        setError("Invalid credentials. Please check your email and password.");
+      } else if (error.code === "auth/email-already-in-use") {
+        setError(
+          "This email is already in use. Please sign in or use another."
+        );
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
@@ -165,6 +191,28 @@ function SignInPage() {
           </button>
         </div>
       </section>
+      {storagePreference === null && (
+        <div className="fixed bottom-0 left-0 right-0 bg-stone-500 text-stone-200 text-sm p-4 flex justify-between items-center z-50">
+          <p>
+            This app uses local storage to persist login data. Allow it to
+            remember you?
+          </p>
+          <div className="space-x-2">
+            <button
+              onClick={() => setStoragePreference("localStorage")}
+              className="bg-emerald-500 px-3 py-1 rounded hover:bg-emerald-600"
+            >
+              Accept
+            </button>
+            <button
+              onClick={() => setStoragePreference("sessionStorage")}
+              className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+            >
+              Deny
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
