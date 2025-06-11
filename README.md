@@ -21,9 +21,11 @@ Authorization: Bearer <firebase_id_token>
 [
   {
     "id": "abc123",
-    "title": "Photography",
-    "description": "Capturing moments",
-    "createdAt": "2025-06-10T00:00:00Z"
+    "name": "Photography",
+    "category": "Art",
+    "difficulty": "Medium",
+    "progress": 20,
+    "completed": false
   }
 ]
 ```
@@ -36,8 +38,11 @@ Authorization: Bearer <firebase_id_token>
 ```json
 {
   "id": "abc123",
-  "title": "Photography",
-  "description": "Capturing moments"
+  "name": "Photography",
+  "category": "Art",
+  "difficulty": "Medium",
+  "progress": 20,
+  "completed": false
 }
 ```
 
@@ -48,17 +53,20 @@ Authorization: Bearer <firebase_id_token>
 **Request Body:**
 ```json
 {
-  "title": "Knitting",
-  "description": "I knit scarves and hats."
+  "name": "Knitting",
+  "category": "Craft",
+  "difficulty": "Easy"
 }
 ```
 **Response:**
 ```json
 {
   "id": "new_id",
-  "title": "Knitting",
-  "description": "I knit scarves and hats.",
-  "createdAt": "2025-06-10T00:00:00Z"
+  "name": "Knitting",
+  "category": "Craft",
+  "difficulty": "Easy",
+  "progress": 0,
+  "completed": false
 }
 ```
 
@@ -69,7 +77,8 @@ Authorization: Bearer <firebase_id_token>
 **Request Body:**
 ```json
 {
-  "description": "Updated hobby description"
+  "progress": 75,
+  "completed": true
 }
 ```
 **Response:**
@@ -97,8 +106,11 @@ Authorization: Bearer <firebase_id_token>
 **Response:**
 ```json
 {
-  "title": "Pottery",
-  "description": "Crafting ceramics and decorative pieces"
+  "name": "Pottery",
+  "category": "Craft",
+  "difficulty": "Medium",
+  "progress": 0,
+  "completed": false
 }
 ```
 
@@ -110,8 +122,11 @@ Authorization: Bearer <firebase_id_token>
 ```json
 [
   {
-    "title": "Origami",
-    "description": "Folding paper into art"
+    "name": "Origami",
+    "category": "Craft",
+    "difficulty": "Easy",
+    "progress": 0,
+    "completed": false
   }
 ]
 ```
@@ -123,8 +138,11 @@ Authorization: Bearer <firebase_id_token>
 **Request Body:**
 ```json
 {
-  "title": "Origami",
-  "description": "Folding paper into art"
+  "name": "Origami",
+  "category": "Craft",
+  "difficulty": "Easy",
+  "progress": 0,
+  "completed": false
 }
 ```
 **Response:**
