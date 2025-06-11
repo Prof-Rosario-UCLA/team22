@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :focus {
+    outline: 2px solid theme("colors.blue.500");
+    outline-offset: 2px;
+  }
+}
