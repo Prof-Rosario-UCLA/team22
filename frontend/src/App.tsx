@@ -14,25 +14,21 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      <main className="flex-grow overflow-y-auto">
-        <Routes>
-          <Route path="/" element={<SignInPage />} />
+    <Routes>
+      <Route path="/" element={<SignInPage />} />
 
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
 
-          <Route path="/home" element={<HomeBoard />} />
-          <Route path="/hobby/new" element={<NewHobby />} />
-        </Routes>
-      </main>
-    </div>
+      <Route path="/home" element={<HomeBoard />} />
+      <Route path="/hobby/new" element={<NewHobby />} />
+    </Routes>
   );
 }
 
