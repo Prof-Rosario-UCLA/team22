@@ -50,14 +50,22 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
       onClick={handleBackdropClick}
       style={{ opacity: isVisible ? 1 : 0 }}
     >
-      <div
+      {/* The main modal panel is now a <dialog> element. */}
+      {/* It has ARIA attributes to make it accessible. */}
+      <dialog
+        open={isVisible} // The 'open' attribute controls the dialog's visibility
         className="bg-white p-6 rounded-lg w-[90%] max-w-md shadow-xl transform transition-all duration-300"
         style={{
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? "translateY(0)" : "translateY(-20px)",
         }}
+        aria-labelledby="dialog-title"
+        aria-modal="true"
       >
-        <h2 className="text-2xl font-bold text-stone-800 mb-6">
+        <h2
+          id="dialog-title"
+          className="text-2xl font-bold text-stone-800 mb-6"
+        >
           Add New Hobby
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -123,7 +131,7 @@ const HobbyForm: React.FC<HobbyFormProps> = ({ onClose, onSave }) => {
             </button>
           </div>
         </form>
-      </div>
+      </dialog>
     </div>
   );
 };

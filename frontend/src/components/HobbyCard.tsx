@@ -15,16 +15,15 @@ const HobbyCard: React.FC<HobbyCardProps> = ({
 }) => {
   const difficultyColors = getDifficultyColor(hobby.difficulty);
   console.log(hobby.difficulty);
+  // Create a unique ID for the progress element to be linked by a label
+  const progressId = `hobby-progress-${hobby.id}`;
+
   return (
-    <article className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-      <h3 className="text-xl font-bold text-stone-800">{hobby.name}</h3>
-      {dragHandle && (
-        <div className="mb-2">
-          <div className="w-full h-5 bg-gray-300 rounded cursor-grab flex items-center justify-center text-xs font-medium text-gray-700 hover:bg-gray-400 transition">
-            {dragHandle}
-          </div>
-        </div>
-      )}
+    <article className="bg-white shadow-md rounded-lg p-4 border border-stone-200 flex flex-col space-y-2">
+      <header>
+        <h3 className="text-xl font-bold text-stone-800">{hobby.name}</h3>
+        {dragHandle && <div className="mt-2">{dragHandle}</div>}
+      </header>
 
       {hobby.category && (
         <p className="text-stone-500 text-sm">{hobby.category}</p>
@@ -36,14 +35,21 @@ const HobbyCard: React.FC<HobbyCardProps> = ({
         {hobby.difficulty || "N/A"}
       </p>
 
-      <div className="w-full bg-stone-200 rounded-full h-3 mb-2">
-        <div
-          className="bg-emerald-400 h-3 rounded-full"
-          style={{ width: `${hobby.progress}%` }}
-        ></div>
+      <div>
+        <label htmlFor={progressId} className="sr-only">
+          Progress
+        </label>
+        <progress
+          id={progressId}
+          max="100"
+          value={hobby.progress}
+          className="w-full h-3 [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-stone-200 [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:bg-emerald-400 [&::-moz-progress-bar]:bg-emerald-400"
+        >
+          {hobby.progress}%
+        </progress>
       </div>
 
-      {children && <div className="mt-3">{children}</div>}
+      {children && <footer className="mt-3">{children}</footer>}
     </article>
   );
 };

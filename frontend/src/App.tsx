@@ -16,14 +16,16 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<SignInPage />} />
-      <Route 
-        path="/dashboard" 
+
+      <Route
+        path="/dashboard"
         element={
           <PrivateRoute>
             <Dashboard />
           </PrivateRoute>
-        } 
+        }
       />
+
       <Route path="/home" element={<HomeBoard />} />
       <Route path="/hobby/new" element={<NewHobby />} />
     </Routes>

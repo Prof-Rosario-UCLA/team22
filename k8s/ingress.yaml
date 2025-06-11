@@ -7,25 +7,26 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: "static-ip-name" # Replace with your static IP name
     # Link your Google-managed certificate
     networking.gke.io/managed-certificates: "app-certificate"
+    # Use HTTP to validate domain ownership (GCP specific).
+    kubernetes.io/ingress.class: "gce"
     # Automatic HTTP to HTTPS redirect
-    networking.gke.io/frontend-config: "default-redirect-config" # Once certificate is ready, uncomment and redeploy this
+    networking.gke.io/v1beta1.FrontendConfig: redirect
 spec:
   rules:
-    - host: team22.cs144.org
-      http:
-        paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: backend # ← this should be the backend service name
-                port:
-                  number: 80 # ← match your backend's service port
-
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend
-                port:
-                  number: 80
+  - host: team22.cs144.org
+    http:
+      paths:
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: backend
+              port:
+                number: 80
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend
+              port:
+                number: 80

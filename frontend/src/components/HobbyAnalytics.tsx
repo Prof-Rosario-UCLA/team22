@@ -67,7 +67,7 @@ const HobbyAnalytics: React.FC<HobbyAnalyticsProps> = ({ hobbies }) => {
   }
 
   return (
-    <div className="my-8 p-6 bg-gray-100 rounded-lg shadow-md">
+    <section className="my-8 p-6 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">
         Your Hobby Analytics
       </h2>
@@ -83,7 +83,7 @@ const HobbyAnalytics: React.FC<HobbyAnalyticsProps> = ({ hobbies }) => {
           <strong>Completed Hobbies:</strong> {analytics.completedHobbies}
         </li>
       </ul>
-    </div>
+    </section>
   );
 };
 

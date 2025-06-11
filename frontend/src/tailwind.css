@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer base {
   html {
     box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
   }
   *,
   *::before,
@@ -14,4 +23,20 @@
   :root {
     --font-sans: "Spline Sans", "ui-sans-serif", "system-ui", sans-serif;
   }
+  :focus-visible {
+    @apply ring-2 ring-offset-2 ring-blue-500 ring-offset-white;
+
+    @apply dark:ring-offset-slate-900;
+
+    outline: none;
+  }
+}
+
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }

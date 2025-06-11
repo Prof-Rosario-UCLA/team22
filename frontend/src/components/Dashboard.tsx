@@ -319,122 +319,134 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard-container p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Welcome!</h1>
-        <button
-          onClick={handleSignOut}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Sign Out
-        </button>
-      </div>
-      <hr className="my-6" />
-
-      <div className="mb-6">
-        <button
-          onClick={() => setShowHobbyForm(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          + Add Hobby
-        </button>
-      </div>
-
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">
-          Most Recent AI Suggestions
-        </h2>
-        {cachedGeminiHobbies.length === 0 ? (
-          <p className="text-gray-600">No recent AI suggestions yet.</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {cachedGeminiHobbies.map((hobby) => (
-              <HobbyCard key={hobby.id} hobby={hobby}>
-                <button
-                  onClick={() => handleSaveHobby(hobby)}
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Save to My Hobbies
-                </button>
-              </HobbyCard>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="my-8 p-6 bg-gray-800 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-teal-400 mb-4">
-          Generate Hobby Recommendation with Gemini
-        </h2>
-        <button
-          onClick={handleGeminiRequest}
-          disabled={isGeminiLoading}
-          className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75"
-        >
-          {isGeminiLoading
-            ? "Connecting to Gemini..."
-            : "Get AI Hobby Suggestion"}
-        </button>
-        {geminiResponse && (
-          <div className="mt-4 p-4 bg-gray-700 rounded text-teal-300">
-            <strong>Gemini Response:</strong>{" "}
-            <div className="mt-6">
-              {" "}
-              {/* Added some margin top for the card */}
-              <GeminiHobbyCard
-                suggestion={geminiResponse}
-                saveHobby={handleSaveHobby}
-              />
-            </div>
-          </div>
-        )}
-        {geminiError && (
-          <div className="mt-4 p-4 bg-red-900 rounded text-red-300">
-            <strong>Error:</strong> {geminiError}
-          </div>
-        )}
-      </div>
-
-      <div className="hobbies-section">
-        <h2 className="text-xl font-semibold mb-3">My Hobbies</h2>
-        {isLoadingHobbies && <p>Loading hobbies...</p>}
-        {hobbiesError && (
-          <p style={{ color: "red" }}>Error loading hobbies: {hobbiesError}</p>
-        )}
-        {!isLoadingHobbies && !hobbiesError && hobbies.length === 0 && (
-          <p>No hobbies found. You can add hobbies in your profile!</p>
-        )}
-        {!isLoadingHobbies && !hobbiesError && hobbies.length > 0 && (
-          <DndContext
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
+    <div className="flex flex-col h-screen bg-gray-100">
+      <main className="flex-grow overflow-y-auto px-4">
+        <section className="flex flex-col items-start sm:flex-row sm:justify-between sm:items-center mb-4 gap-2 sm:gap-0">
+          <h1 className="text-2xl font-bold mb-2 sm:mb-0">Welcome!</h1>
+          <button
+            onClick={handleSignOut}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           >
-            <div className="flex gap-4">
-              {Object.entries(PROGRESS_BUCKETS).map(([bucket, progress]) => (
-                <DroppableColumn
-                  key={bucket}
-                  id={bucket}
-                  title={getTitle(bucket)}
-                  hobbies={hobbies.filter((h) => h.progress === progress)}
-                  onDelete={handleDeleteHobby}
-                />
+            Sign Out
+          </button>
+        </section>
+
+        <hr className="my-4" />
+
+        <div className="mb-4">
+          <button
+            onClick={() => setShowHobbyForm(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            + Add Hobby
+          </button>
+        </div>
+
+        <section className="mb-8">
+          <h2 className="text-xl font-semibold mb-2">
+            Most Recent AI Suggestions
+          </h2>
+          {cachedGeminiHobbies.length === 0 ? (
+            <p className="text-gray-600">No recent AI suggestions yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {cachedGeminiHobbies.map((hobby) => (
+                <HobbyCard key={hobby.id} hobby={hobby}>
+                  <button
+                    onClick={() => handleSaveHobby(hobby)}
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Save to My Hobbies
+                  </button>
+                </HobbyCard>
               ))}
             </div>
-          </DndContext>
+          )}
+        </section>
+
+        <section className="my-4 p-4 lg:my-8 lg:p-6 bg-gray-800 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-teal-400 mb-4">
+            Generate Hobby Recommendation with Gemini
+          </h2>
+          <button
+            onClick={handleGeminiRequest}
+            disabled={isGeminiLoading}
+            className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75"
+          >
+            {isGeminiLoading
+              ? "Connecting to Gemini..."
+              : "Get AI Hobby Suggestion"}
+          </button>
+          {geminiResponse && (
+            <div className="mt-4 p-4 bg-gray-700 rounded text-teal-300">
+              <strong>Gemini Response:</strong>
+              <div className="mt-6">
+                {" "}
+                {/* Added some margin top for the card */}
+                <GeminiHobbyCard
+                  suggestion={geminiResponse}
+                  saveHobby={handleSaveHobby}
+                />
+              </div>
+            </div>
+          )}
+          {geminiError && (
+            <div className="mt-4 p-4 bg-red-900 rounded text-red-300">
+              <strong>Error:</strong> {geminiError}
+            </div>
+          )}
+        </section>
+
+        <section className="hobbies-section">
+          <h2 className="text-xl font-semibold mb-3">My Hobbies</h2>
+          <div aria-live="polite">
+            {isLoadingHobbies && <p>Loading hobbies...</p>}
+          </div>
+          <div aria-live="assertive">
+            {geminiError && (
+              <div className="mt-4 p-4 bg-red-900 rounded text-red-300">
+                <strong>Error:</strong> {geminiError}
+              </div>
+            )}
+          </div>
+          {!isLoadingHobbies && !hobbiesError && hobbies.length === 0 && (
+            <p>No hobbies found. You can add hobbies in your profile!</p>
+          )}
+          {!isLoadingHobbies && !hobbiesError && hobbies.length > 0 && (
+            <DndContext
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <div className="flex flex-col lg:flex-row gap-4 p-2">
+                {Object.entries(PROGRESS_BUCKETS).map(([bucket, progress]) => (
+                  <DroppableColumn
+                    key={bucket}
+                    id={bucket}
+                    title={getTitle(bucket)}
+                    hobbies={hobbies.filter((h) => h.progress === progress)}
+                    onDelete={handleDeleteHobby}
+                  />
+                ))}
+              </div>
+            </DndContext>
+          )}
+        </section>
+
+        {/* Analytics Component */}
+        {!isLoadingHobbies && hobbies.length > 0 && (
+          <HobbyAnalytics hobbies={hobbies} />
         )}
-      </div>
 
-      {/* Analytics Component */}
-      {!isLoadingHobbies && hobbies.length > 0 && (
-        <HobbyAnalytics hobbies={hobbies} />
-      )}
-
-      {showHobbyForm && (
-        <HobbyForm
-          onClose={() => setShowHobbyForm(false)}
-          onSave={handleSaveHobby}
-        />
-      )}
+        {showHobbyForm && (
+          <HobbyForm
+            onClose={() => setShowHobbyForm(false)}
+            onSave={handleSaveHobby}
+          />
+        )}
+      </main>
+      <footer className="flex-shrink-0 bg-gray-200 p-2 text-center text-sm">
+        <p>© 2025 HobbyQuest</p>
+      </footer>
     </div>
   );
 }
