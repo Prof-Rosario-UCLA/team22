@@ -319,129 +319,136 @@ function Dashboard() {
   };
 
   return (
-    <main className="dashboard-container p-4">
-      <section className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-4 sm:gap-0">
-        <h1 className="text-2xl font-bold">Welcome!</h1>
-        <button
-          onClick={handleSignOut}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Sign Out
-        </button>
-      </section>
-      <hr className="my-6" />
+    <body className="flex flex-col h-screen bg-gray-100">
+      <header className="bg-gray-800 text-white p-4 shadow-md">
+        <section className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-4 sm:gap-0">
+          <h1 className="text-2xl font-bold">Welcome!</h1>
+          <button
+            onClick={handleSignOut}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Sign Out
+          </button>
+        </section>
+      </header>
+      <main className="flex-grow overflow-y-auto">
+        <hr className="my-6" />
 
-      <div className="mb-6">
-        <button
-          onClick={() => setShowHobbyForm(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          + Add Hobby
-        </button>
-      </div>
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">
-          Most Recent AI Suggestions
-        </h2>
-        {cachedGeminiHobbies.length === 0 ? (
-          <p className="text-gray-600">No recent AI suggestions yet.</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {cachedGeminiHobbies.map((hobby) => (
-              <HobbyCard key={hobby.id} hobby={hobby}>
-                <button
-                  onClick={() => handleSaveHobby(hobby)}
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Save to My Hobbies
-                </button>
-              </HobbyCard>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section className="my-8 p-6 bg-gray-800 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-teal-400 mb-4">
-          Generate Hobby Recommendation with Gemini
-        </h2>
-        <button
-          onClick={handleGeminiRequest}
-          disabled={isGeminiLoading}
-          className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75"
-        >
-          {isGeminiLoading
-            ? "Connecting to Gemini..."
-            : "Get AI Hobby Suggestion"}
-        </button>
-        {geminiResponse && (
-          <div className="mt-4 p-4 bg-gray-700 rounded text-teal-300">
-            <strong>Gemini Response:</strong>
-            <div className="mt-6">
-              {" "}
-              {/* Added some margin top for the card */}
-              <GeminiHobbyCard
-                suggestion={geminiResponse}
-                saveHobby={handleSaveHobby}
-              />
-            </div>
-          </div>
-        )}
-        {geminiError && (
-          <div className="mt-4 p-4 bg-red-900 rounded text-red-300">
-            <strong>Error:</strong> {geminiError}
-          </div>
-        )}
-      </section>
-
-      <section className="hobbies-section">
-        <h2 className="text-xl font-semibold mb-3">My Hobbies</h2>
-        <div aria-live="polite">
-          {isLoadingHobbies && <p>Loading hobbies...</p>}
+        <div className="mb-6">
+          <button
+            onClick={() => setShowHobbyForm(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            + Add Hobby
+          </button>
         </div>
-        <div aria-live="assertive">
+
+        <section className="mb-8">
+          <h2 className="text-xl font-semibold mb-2">
+            Most Recent AI Suggestions
+          </h2>
+          {cachedGeminiHobbies.length === 0 ? (
+            <p className="text-gray-600">No recent AI suggestions yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {cachedGeminiHobbies.map((hobby) => (
+                <HobbyCard key={hobby.id} hobby={hobby}>
+                  <button
+                    onClick={() => handleSaveHobby(hobby)}
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Save to My Hobbies
+                  </button>
+                </HobbyCard>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="my-8 p-6 bg-gray-800 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-teal-400 mb-4">
+            Generate Hobby Recommendation with Gemini
+          </h2>
+          <button
+            onClick={handleGeminiRequest}
+            disabled={isGeminiLoading}
+            className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75"
+          >
+            {isGeminiLoading
+              ? "Connecting to Gemini..."
+              : "Get AI Hobby Suggestion"}
+          </button>
+          {geminiResponse && (
+            <div className="mt-4 p-4 bg-gray-700 rounded text-teal-300">
+              <strong>Gemini Response:</strong>
+              <div className="mt-6">
+                {" "}
+                {/* Added some margin top for the card */}
+                <GeminiHobbyCard
+                  suggestion={geminiResponse}
+                  saveHobby={handleSaveHobby}
+                />
+              </div>
+            </div>
+          )}
           {geminiError && (
             <div className="mt-4 p-4 bg-red-900 rounded text-red-300">
               <strong>Error:</strong> {geminiError}
             </div>
           )}
-        </div>
-        {!isLoadingHobbies && !hobbiesError && hobbies.length === 0 && (
-          <p>No hobbies found. You can add hobbies in your profile!</p>
-        )}
-        {!isLoadingHobbies && !hobbiesError && hobbies.length > 0 && (
-          <DndContext
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <div className="flex flex-col lg:flex-row gap-4 max-h-[600px] overflow-y-auto p-2">
-              {Object.entries(PROGRESS_BUCKETS).map(([bucket, progress]) => (
-                <DroppableColumn
-                  key={bucket}
-                  id={bucket}
-                  title={getTitle(bucket)}
-                  hobbies={hobbies.filter((h) => h.progress === progress)}
-                  onDelete={handleDeleteHobby}
-                />
-              ))}
-            </div>
-          </DndContext>
-        )}
-      </section>
+        </section>
 
-      {/* Analytics Component */}
-      {!isLoadingHobbies && hobbies.length > 0 && (
-        <HobbyAnalytics hobbies={hobbies} />
-      )}
+        <section className="hobbies-section">
+          <h2 className="text-xl font-semibold mb-3">My Hobbies</h2>
+          <div aria-live="polite">
+            {isLoadingHobbies && <p>Loading hobbies...</p>}
+          </div>
+          <div aria-live="assertive">
+            {geminiError && (
+              <div className="mt-4 p-4 bg-red-900 rounded text-red-300">
+                <strong>Error:</strong> {geminiError}
+              </div>
+            )}
+          </div>
+          {!isLoadingHobbies && !hobbiesError && hobbies.length === 0 && (
+            <p>No hobbies found. You can add hobbies in your profile!</p>
+          )}
+          {!isLoadingHobbies && !hobbiesError && hobbies.length > 0 && (
+            <DndContext
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <div className="flex flex-col lg:flex-row gap-4 max-h-[600px] overflow-y-auto p-2">
+                {Object.entries(PROGRESS_BUCKETS).map(([bucket, progress]) => (
+                  <DroppableColumn
+                    key={bucket}
+                    id={bucket}
+                    title={getTitle(bucket)}
+                    hobbies={hobbies.filter((h) => h.progress === progress)}
+                    onDelete={handleDeleteHobby}
+                  />
+                ))}
+              </div>
+            </DndContext>
+          )}
+        </section>
 
-      {showHobbyForm && (
-        <HobbyForm
-          onClose={() => setShowHobbyForm(false)}
-          onSave={handleSaveHobby}
-        />
-      )}
-    </main>
+        {/* Analytics Component */}
+        {!isLoadingHobbies && hobbies.length > 0 && (
+          <HobbyAnalytics hobbies={hobbies} />
+        )}
+
+        {showHobbyForm && (
+          <HobbyForm
+            onClose={() => setShowHobbyForm(false)}
+            onSave={handleSaveHobby}
+          />
+        )}
+      </main>
+      <footer className="flex-shrink-0 bg-gray-200 p-2 text-center text-sm">
+        <p>© 2025 HobbyQuest</p>
+      </footer>
+    </body>
   );
 }
 

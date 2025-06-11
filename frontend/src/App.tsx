@@ -32,9 +32,6 @@ function App() {
           <Route path="/hobby/new" element={<NewHobby />} />
         </Routes>
       </main>
-      <footer className="flex-shrink-0 bg-gray-200 p-2 text-center text-sm">
-        <p>© 2025 HobbyQuest</p>
-      </footer>
     </div>
   );
 }
