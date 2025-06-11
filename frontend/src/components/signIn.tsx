@@ -44,7 +44,7 @@ function SignInPage() {
       login(token, userId, storagePreference || "sessionStorage");
       setMessage("Sign in with Google successful!");
       navigate("/home");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error signing in with Google:", error);
       if (error.code === "auth/network-request-failed") {
         setError("Network error. Please check your connection and try again.");
