@@ -10,7 +10,7 @@ All API endpoints require the user to be authenticated via **Firebase Authentica
 
 ```http
 Authorization: Bearer <firebase_id_token>
-
+```
 # API Reference
 
 > All endpoints require authentication via Firebase.
