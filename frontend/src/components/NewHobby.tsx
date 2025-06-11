@@ -16,7 +16,6 @@ function NewHobby() {
   // State for hobby form
   const [showHobbyForm, setShowHobbyForm] = useState(false);
 
-  // State for gemini interaction
   const [geminiResponse, setGeminiResponse] =
     useState<GeminiHobbySuggestion | null>(null);
   const [geminiError, setGeminiError] = useState<string | null>(null);
