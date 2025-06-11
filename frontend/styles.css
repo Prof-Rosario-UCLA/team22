@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 @layer base {
-  :focus {
-    outline: 2px solid theme("colors.blue.500");
-    outline-offset: 2px;
+  :focus-visible {
+    @apply ring-2 ring-offset-2 ring-blue-500 ring-offset-white;
+
+    @apply dark:ring-offset-slate-900;
+
+    outline: none;
   }
 }
