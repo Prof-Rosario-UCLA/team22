@@ -155,3 +155,42 @@ Authorization: Bearer <firebase_id_token>
 ---
 
 For full app functionality, make sure the user is authenticated using Firebase and the token is included in API calls.
+
+## Deployment Instructions
+
+### Prerequisites
+- Node.js 20+
+- Docker + Docker Buildx
+- GCP Project with:
+  - Artifact Registry
+  - GKE Cluster
+  - Redis Deployment
+  - Static IP & HTTPS Certificate (for Ingress)
+- Firebase Project with Authentication enabled
+
+### Environment Variable
+These are passed via GitHub Actions secrets or Docker build args:
+
+Frontend:
+```
+VITE_FIREBASE_API_KEY
+VITE_FIREBASE_AUTH_DOMAIN
+VITE_FIREBASE_PROJECT_ID
+VITE_DEV_BACKEND_URL
+VITE_PROD_BACKEND_URL
+```
+
+Backend:
+```
+PORT
+FIREBASE_CREDENTIALS_PATH
+GOOGLE_APPLICATION_CREDENTIALS
+REDIS_URL
+```
+
+### CI/CD with GitHub Actions
+The `build-and-deploy` job does the following:
+- Authenticates with GCP
+- Builds and pushes Docker images
+- Applies Kubernetes configs (frontend, backend, redis, ingress)
+- Restarts deployments to fetch latest images
