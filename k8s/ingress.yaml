@@ -23,10 +23,6 @@ spec:
               name: backend
               port:
                 number: 80
-
-  - host: team22.cs144.org
-    http:
-      paths:
         - path: /
           pathType: Prefix
           backend:
