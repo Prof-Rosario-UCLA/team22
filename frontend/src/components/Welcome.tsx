@@ -5,7 +5,7 @@ const Welcome: React.FC = () => {
     <header className="text-center mb-8">
       <div className="mx-auto h-12 w-12 rounded-full bg-emerald-500 mb-4 flex items-center justify-center font-bold text-white text-2xl">
         <img
-          src="/logo.svg"
+          src="../../public/logo-org-192.png"
           alt="HobbyQuest Logo"
           className="h-8 w-8"
           aria-lablel="HobbyQuest Logo"
