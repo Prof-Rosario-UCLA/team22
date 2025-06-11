@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import { type HobbySchema } from "../schemas/hobby.types";
 import HobbyCard from "./HobbyCard";
+import SideNav from "./SideNav";
 
 function HomeBoard() {
   const { token } = useAuth();
@@ -58,9 +59,12 @@ function HomeBoard() {
 
   if (isLoadingHobbies) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-stone-300">
-        <div className="flex flex-col py-16 px-12 shadow-lg rounded-lg w-96 bg-stone-50">
-          <p className="text-stone-500">Loading hobbies...</p>
+      <div className="flex">
+        <SideNav />
+        <div className="ml-64 flex-1 p-8">
+          <div className="flex flex-col items-center justify-center h-screen">
+            <p className="text-stone-500">Loading hobbies...</p>
+          </div>
         </div>
       </div>
     );
@@ -68,9 +72,12 @@ function HomeBoard() {
 
   if (hobbiesError) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-stone-300">
-        <div className="flex flex-col py-16 px-12 shadow-lg rounded-lg w-96 bg-stone-50">
-          <p className="text-red-500 text-xs">{hobbiesError}</p>
+      <div className="flex">
+        <SideNav />
+        <div className="ml-64 flex-1 p-8">
+          <div className="flex flex-col items-center justify-center h-screen">
+            <p className="text-red-500 text-xs">{hobbiesError}</p>
+          </div>
         </div>
       </div>
     );
@@ -78,27 +85,35 @@ function HomeBoard() {
 
   if (hobbies.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-stone-300">
-        <div className="flex flex-col py-16 px-12 shadow-lg rounded-lg w-96 bg-stone-50">
-          <h1 className="font-bold mb-4 text-2xl">No Hobbies Yet</h1>
-          <p className="text-stone-500 mb-4">Start your hobby journey today!</p>
-          <button className="bg-emerald-400 py-2 rounded-lg text-white hover:bg-emerald-600">
-            Add Hobbies
-          </button>
+      <div className="flex">
+        <SideNav />
+        <div className="ml-64 flex-1 p-8">
+          <div className="flex flex-col items-center justify-center h-screen">
+            <h1 className="font-bold mb-4 text-2xl">No Hobbies Yet</h1>
+            <p className="text-stone-500 mb-4">
+              Start your hobby journey today!
+            </p>
+            <button className="bg-emerald-400 py-2 rounded-lg text-white hover:bg-emerald-600">
+              Add Hobbies
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-screen max-w-4xl mx-auto">
-      <header className="p-4">
-        <h1 className="font-bold text-2xl text-stone-800">My Hobbies</h1>
-      </header>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {hobbies.map((hobby) => (
-          <HobbyCard key={hobby.id} hobby={hobby} />
-        ))}
+    <div className="flex">
+      <SideNav />
+      <div className="ml-64 flex-1 p-8">
+        <header className="mb-6">
+          <h1 className="font-bold text-2xl text-stone-800">My Hobbies</h1>
+        </header>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {hobbies.map((hobby) => (
+            <HobbyCard key={hobby.id} hobby={hobby} />
+          ))}
+        </div>
       </div>
     </div>
   );
