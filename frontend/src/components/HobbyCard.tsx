@@ -19,7 +19,7 @@ const HobbyCard: React.FC<HobbyCardProps> = ({
   const progressId = `hobby-progress-${hobby.id}`;
 
   return (
-    <article className="bg-white shadow-md rounded-lg p-4 border border-stone-200 flex flex-col space-y-2">
+    <article className="bg-white shadow-md rounded-lg p-4 border border-stone-200 flex flex-col space-y-2 relative">
       <header>
         <h3 className="text-xl font-bold text-stone-800">{hobby.name}</h3>
         {dragHandle && <div className="mt-2">{dragHandle}</div>}
