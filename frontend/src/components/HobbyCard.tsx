@@ -19,18 +19,18 @@ const HobbyCard: React.FC<HobbyCardProps> = ({
   const progressId = `hobby-progress-${hobby.id}`;
 
   return (
-    <article className="bg-white shadow-md rounded-lg p-4 border border-stone-200 flex flex-col space-y-2 relative">
+    <article className="bg-white shadow-md rounded-lg p-4 border border-stone-200 flex flex-col relative">
       <header>
-        <h3 className="text-xl font-bold text-stone-800">{hobby.name}</h3>
-        {dragHandle && <div className="mt-2">{dragHandle}</div>}
+        <h3 className="text-xl font-bold text-stone-800 mb-2">{hobby.name}</h3>
+        {dragHandle && <div className="my-2">{dragHandle}</div>}
       </header>
 
       {hobby.category && (
-        <p className="text-stone-500 text-sm">{hobby.category}</p>
+        <p className="text-stone-500 text-sm mb-2">{hobby.category}</p>
       )}
 
       <p
-        className={`text-xs font-medium ${difficultyColors.text} ${difficultyColors.bg} px-2 py-1 rounded-full inline-block w-fit`}
+        className={`text-xs font-medium ${difficultyColors.text} ${difficultyColors.bg} px-2 py-1 rounded-full inline-block w-fit mb-2`}
       >
         {hobby.difficulty || "N/A"}
       </p>
@@ -49,7 +49,7 @@ const HobbyCard: React.FC<HobbyCardProps> = ({
         </progress>
       </div>
 
-      {children && <footer className="mt-3">{children}</footer>}
+      {children}
     </article>
   );
 };
