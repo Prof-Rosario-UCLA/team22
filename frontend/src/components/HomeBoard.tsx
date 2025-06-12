@@ -5,7 +5,6 @@ import { type HobbySchema } from "../schemas/hobby.types";
 import HobbyCard from "./HobbyCard";
 import SideNav from "./SideNav";
 import { useNavigate } from "react-router-dom";
-import HobbyAnalytics from "./HobbyAnalytics";
 
 function HomeBoard() {
   const { token } = useAuth();
@@ -168,7 +167,7 @@ function HomeBoard() {
     <div className="flex">
       <SideNav />
       <div className="md:ml-64 flex-1 p-8 pb-20 md:pb-8">
-        <header className="mb-6">
+        <header className="sticky top-0 bg-white z-10 mb-6 py-4">
           <h1 className="font-bold text-2xl text-stone-800">My Hobbies</h1>
         </header>
 
@@ -237,7 +236,11 @@ function HomeBoard() {
               {hobbies.map((hobby) => (
                 <HobbyCard key={hobby.id} hobby={hobby}>
                   <button
-                    onClick={() => hobby.id && handleDeleteHobby(hobby.id)}
+                    onClick={() => {
+                      if (hobby.id) {
+                        handleDeleteHobby(hobby.id);
+                      }
+                    }}
                     className="absolute top-4 right-4 text-stone-400 hover:text-stone-600 transition-colors"
                     aria-label={`Delete ${hobby.name}`}
                   >
@@ -260,13 +263,6 @@ function HomeBoard() {
             </div>
           )}
         </section>
-
-        {/* Analytics Component */}
-        {!isLoadingHobbies && hobbies.length > 0 && (
-          <section className="mt-8">
-            <HobbyAnalytics hobbies={hobbies} />
-          </section>
-        )}
       </div>
     </div>
   );

@@ -10,17 +10,14 @@ const HobbyAnalytics: React.FC<HobbyAnalyticsProps> = ({ hobbies }) => {
   const [analytics, setAnalytics] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const calculateAnalytics = async () => {
       try {
-        // Load the WebAssembly module and call the analytics function from WASM
         const module = await loadWasmModule();
-        // Create the C++ vector to hold the hobbies.
         const hobbyVector = new module.HobbyVector();
 
-        // Loop through the real 'hobbies' array from the component props.
         hobbies.forEach((hobby) => {
-          // 1. Sanitize each hobby object to ensure it has the perfect shape and types.
           const sanitizedHobby = {
             name: hobby.name || "",
             category: hobby.category || "",
@@ -28,11 +25,9 @@ const HobbyAnalytics: React.FC<HobbyAnalyticsProps> = ({ hobbies }) => {
             progress: Number(hobby.progress) || 0,
           };
 
-          // 2. Push the clean JavaScript object into the C++ vector.
           hobbyVector.push_back(sanitizedHobby);
         });
 
-        // 3. Call the C++ function with the manually constructed C++ vector.
         const result = module.calculateHobbyAnalytics(hobbyVector);
         setAnalytics(result);
       } catch (err) {
@@ -52,8 +47,9 @@ const HobbyAnalytics: React.FC<HobbyAnalyticsProps> = ({ hobbies }) => {
       setError("No hobbies available for analytics.");
     }
   }, [hobbies]);
+
   if (isLoading) {
-    return <p className="text-center text-gray-500">Loading analytics...</p>;
+    return <p className="text-center text-stone-500">Loading analytics...</p>;
   }
 
   if (error) {
@@ -62,28 +58,42 @@ const HobbyAnalytics: React.FC<HobbyAnalyticsProps> = ({ hobbies }) => {
 
   if (!analytics) {
     return (
-      <p className="text-center text-gray-500">No analytics data available.</p>
+      <p className="text-center text-stone-500">No analytics data available.</p>
     );
   }
 
   return (
-    <section className="my-8 p-6 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+    <div className="bg-white shadow-md rounded-lg p-6 border border-stone-200">
+      <h2 className="text-xl font-semibold text-stone-800 mb-6">
         Your Hobby Analytics
       </h2>
-      <ul className="space-y-2">
-        <li>
-          <strong>Total Hobbies:</strong> {analytics.totalHobbies}
-        </li>
-        <li>
-          <strong>Average Progress:</strong>{" "}
-          {analytics.averageProgress.toFixed(2)}%
-        </li>
-        <li>
-          <strong>Completed Hobbies:</strong> {analytics.completedHobbies}
-        </li>
-      </ul>
-    </section>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-stone-50 p-4 rounded-lg border border-stone-200">
+          <h3 className="text-sm font-medium text-stone-600 mb-2">
+            Total Hobbies
+          </h3>
+          <p className="text-2xl font-bold text-stone-800">
+            {analytics.totalHobbies}
+          </p>
+        </div>
+        <div className="bg-stone-50 p-4 rounded-lg border border-stone-200">
+          <h3 className="text-sm font-medium text-stone-600 mb-2">
+            Average Progress
+          </h3>
+          <p className="text-2xl font-bold text-stone-800">
+            {analytics.averageProgress.toFixed(2)}%
+          </p>
+        </div>
+        <div className="bg-stone-50 p-4 rounded-lg border border-stone-200">
+          <h3 className="text-sm font-medium text-stone-600 mb-2">
+            Completed Hobbies
+          </h3>
+          <p className="text-2xl font-bold text-stone-800">
+            {analytics.completedHobbies}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

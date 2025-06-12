@@ -107,6 +107,31 @@ function Tracker() {
     }
   };
 
+  const handleDeleteHobby = async (hobbyId: string) => {
+    if (!token) {
+      console.error("No token found, cannot delete hobby.");
+      return;
+    }
+
+    try {
+      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
+      const deleteUrl = `${backendUrl}/user/delete-hobby/${hobbyId}`;
+      await axios.delete(deleteUrl, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      setHobbies((prevHobbies) =>
+        prevHobbies.filter((hobby) => hobby.id !== hobbyId)
+      );
+    } catch (error) {
+      console.error("Error deleting hobby:", error);
+      alert("Failed to delete hobby.");
+    }
+  };
+
   if (isLoadingHobbies) {
     return (
       <div className="flex">
@@ -137,7 +162,7 @@ function Tracker() {
     <div className="flex">
       <SideNav />
       <div className="md:ml-64 flex-1 p-8 pb-20 md:pb-8">
-        <header className="mb-6">
+        <header className="sticky top-0 bg-white z-10 mb-6 py-4">
           <h1 className="font-bold text-2xl text-stone-800">Hobby Tracker</h1>
         </header>
 
@@ -160,7 +185,7 @@ function Tracker() {
                     id={bucket}
                     title={getTitle(bucket)}
                     hobbies={hobbies.filter((h) => h.progress === progress)}
-                    onDelete={() => {}} // We'll implement delete functionality later if needed
+                    onDelete={handleDeleteHobby}
                   />
                 ))}
               </div>

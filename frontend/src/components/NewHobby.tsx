@@ -21,6 +21,7 @@ function NewHobby() {
     useState<GeminiHobbySuggestion | null>(null);
   const [geminiError, setGeminiError] = useState<string | null>(null);
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
+  const [showGeminiCard, setShowGeminiCard] = useState(false);
 
   const handleSaveHobby = async (newHobby: HobbySchema) => {
     if (!token) {
@@ -94,6 +95,7 @@ function NewHobby() {
         try {
           const parsedHobby = JSON.parse(cleanJsonString);
           setGeminiResponse(parsedHobby as GeminiHobbySuggestion);
+          setShowGeminiCard(true);
 
           // Cache recommended hobby
           const payload: HobbySchema = {
@@ -119,6 +121,7 @@ function NewHobby() {
         }
       } else if (responseData) {
         setGeminiResponse(rawGeminiString as GeminiHobbySuggestion);
+        setShowGeminiCard(true);
       } else {
         setGeminiError("Received no valid data from Gemini route.");
       }
@@ -145,45 +148,27 @@ function NewHobby() {
     <div className="flex">
       <SideNav />
       <div className="md:ml-64 flex-1 p-8 pb-20 md:pb-8">
-        <header className="mb-6">
+        <header className="sticky top-0 bg-white z-10 mb-6 py-4">
           <h1 className="font-bold text-2xl text-stone-800">Add New Hobby</h1>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-            <h2 className="text-xl font-semibold mb-4">Add Hobby Manually</h2>
-            <button
-              onClick={() => setShowHobbyForm(true)}
-              className="bg-emerald-400 py-2 px-4 rounded-lg font-bold text-stone-50 hover:bg-emerald-600 transition-colors w-full"
-            >
-              Create New Hobby
-            </button>
-          </div>
+          <button
+            onClick={() => setShowHobbyForm(true)}
+            className="bg-emerald-400 py-16 px-8 rounded-xl font-bold text-stone-50 hover:bg-emerald-600 transition-colors w-full text-3xl md:text-4xl h-full"
+          >
+            Create New Hobby
+          </button>
 
-          <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-            <h2 className="text-xl font-semibold mb-4">
-              Get AI Recommendation
-            </h2>
-            <button
-              onClick={handleGeminiRequest}
-              disabled={isGeminiLoading}
-              className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 w-full"
-            >
-              {isGeminiLoading
-                ? "Getting Recommendation..."
-                : "Get AI Hobby Suggestion"}
-            </button>
-          </div>
-
-          {geminiResponse && (
-            <div className="md:col-span-2 bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-              <h3 className="text-lg font-semibold mb-4">AI Recommendation</h3>
-              <GeminiHobbyCard
-                suggestion={geminiResponse}
-                saveHobby={handleSaveHobby}
-              />
-            </div>
-          )}
+          <button
+            onClick={handleGeminiRequest}
+            disabled={isGeminiLoading}
+            className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-16 px-8 rounded-xl transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 w-full text-3xl md:text-4xl h-full"
+          >
+            {isGeminiLoading
+              ? "Getting Recommendation..."
+              : "Get AI Hobby Suggestion"}
+          </button>
 
           {geminiError && (
             <div className="md:col-span-2 bg-red-50 p-4 rounded-lg shadow-md">
@@ -196,6 +181,14 @@ function NewHobby() {
           <HobbyForm
             onClose={() => setShowHobbyForm(false)}
             onSave={handleSaveHobby}
+          />
+        )}
+
+        {showGeminiCard && geminiResponse && (
+          <GeminiHobbyCard
+            suggestion={geminiResponse}
+            saveHobby={handleSaveHobby}
+            onClose={() => setShowGeminiCard(false)}
           />
         )}
       </div>
