@@ -237,7 +237,11 @@ function HomeBoard() {
               {hobbies.map((hobby) => (
                 <HobbyCard key={hobby.id} hobby={hobby}>
                   <button
-                    onClick={() => hobby.id && handleDeleteHobby(hobby.id)}
+                    onClick={() => {
+                      if (hobby.id) {
+                        handleDeleteHobby(hobby.id);
+                      }
+                    }}
                     className="absolute top-4 right-4 text-stone-400 hover:text-stone-600 transition-colors"
                     aria-label={`Delete ${hobby.name}`}
                   >
