@@ -382,11 +382,12 @@ function Dashboard() {
               <strong>Gemini Response:</strong>
               <div className="mt-6">
                 {" "}
-                {/* Added some margin top for the card */}
+                {/* Added some margin top for the card 
                 <GeminiHobbyCard
                   suggestion={geminiResponse}
                   saveHobby={handleSaveHobby}
                 />
+                */}
               </div>
             </div>
           )}
