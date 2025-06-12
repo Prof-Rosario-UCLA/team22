@@ -5,6 +5,7 @@ import { useAuth } from "./contexts/AuthContext";
 import HomeBoard from "./components/HomeBoard";
 import NewHobby from "./components/NewHobby";
 import PrivateRoute from "./components/PrivateRoute";
+import Tracker from "./components/Tracker";
 
 function App() {
   // Adding checking for authentiation state
@@ -39,6 +40,14 @@ function App() {
         element={
           <PrivateRoute>
             <NewHobby />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/tracker"
+        element={
+          <PrivateRoute>
+            <Tracker />
           </PrivateRoute>
         }
       />
