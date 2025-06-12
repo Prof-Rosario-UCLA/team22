@@ -94,11 +94,11 @@ function Profile() {
     <div className="flex">
       <SideNav />
       <div className="md:ml-64 flex-1 p-8 pb-20 md:pb-8">
-        <div className="max-w-4xl mx-auto">
-          <header className="mb-6">
-            <h1 className="font-bold text-2xl text-stone-800">Profile</h1>
-          </header>
+        <header className="mb-6">
+          <h1 className="font-bold text-2xl text-stone-800">Profile</h1>
+        </header>
 
+        <div className="max-w-4xl mx-auto h-[calc(100vh-12rem)] flex flex-col justify-center">
           <section className="mb-8">
             <HobbyAnalytics hobbies={hobbies} />
           </section>
@@ -106,7 +106,7 @@ function Profile() {
           <section className="flex justify-center">
             <button
               onClick={handleSignOut}
-              className="text-red-500 hover:text-red-600 py-2 px-4 rounded-lg flex items-center gap-2 transition-colors  hover:bg-red-50"
+              className="text-red-500 hover:text-red-600 py-2 px-4 rounded-lg flex items-center gap-2 transition-colors hover:bg-red-50"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
