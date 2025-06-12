@@ -59,8 +59,6 @@ jobs:
       - name: Setup Emscription
         uses: mymindstorm/setup-emsdk@v14
         id: emsdk-setup
-        with:
-          version: "3.1.55"
 
       - name: Install Frontend Dependencies
         run: npm install
