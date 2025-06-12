@@ -153,30 +153,22 @@ function NewHobby() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-            <h2 className="text-xl font-semibold mb-4">Add Hobby Manually</h2>
-            <button
-              onClick={() => setShowHobbyForm(true)}
-              className="bg-emerald-400 py-2 px-4 rounded-lg font-bold text-stone-50 hover:bg-emerald-600 transition-colors w-full"
-            >
-              Create New Hobby
-            </button>
-          </div>
+          <button
+            onClick={() => setShowHobbyForm(true)}
+            className="bg-emerald-400 py-16 px-8 rounded-xl font-bold text-stone-50 hover:bg-emerald-600 transition-colors w-full text-3xl md:text-4xl h-full"
+          >
+            Create New Hobby
+          </button>
 
-          <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-            <h2 className="text-xl font-semibold mb-4">
-              Get AI Recommendation
-            </h2>
-            <button
-              onClick={handleGeminiRequest}
-              disabled={isGeminiLoading}
-              className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 w-full"
-            >
-              {isGeminiLoading
-                ? "Getting Recommendation..."
-                : "Get AI Hobby Suggestion"}
-            </button>
-          </div>
+          <button
+            onClick={handleGeminiRequest}
+            disabled={isGeminiLoading}
+            className="bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-white font-bold py-16 px-8 rounded-xl transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 w-full text-3xl md:text-4xl h-full"
+          >
+            {isGeminiLoading
+              ? "Getting Recommendation..."
+              : "Get AI Hobby Suggestion"}
+          </button>
 
           {geminiError && (
             <div className="md:col-span-2 bg-red-50 p-4 rounded-lg shadow-md">
