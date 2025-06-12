@@ -29,7 +29,7 @@ function SignInPage() {
       localStorage.getItem("userId") || sessionStorage.getItem("userId");
 
     if (token && userId) {
-      navigate("/dashboard");
+      navigate("/home");
     }
   }, [navigate]);
 

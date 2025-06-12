@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,7 +9,6 @@ import {
 import GeminiHobbyCard from "./GeminiHobbyCard";
 import HobbyForm from "./HobbyForm";
 import SideNav from "./SideNav";
-import HobbyCard from "./HobbyCard";
 
 function NewHobby() {
   const { token } = useAuth();
@@ -22,31 +21,6 @@ function NewHobby() {
     useState<GeminiHobbySuggestion | null>(null);
   const [geminiError, setGeminiError] = useState<string | null>(null);
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
-  const [cachedGeminiHobbies, setCachedGeminiHobbies] = useState<HobbySchema[]>(
-    []
-  );
-
-  const fetchCachedGeminiHobbies = async () => {
-    if (!token) return;
-
-    try {
-      const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
-      const route = backendUrl + "/user/cached-hobbies";
-      const cachedHobbies = await axios.get(route, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      setCachedGeminiHobbies(cachedHobbies.data || []);
-    } catch (err) {
-      console.error("Error fetching cached Gemini hobbies:", err);
-    }
-  };
-
-  useEffect(() => {
-    fetchCachedGeminiHobbies();
-  }, [token]);
 
   const handleSaveHobby = async (newHobby: HobbySchema) => {
     if (!token) {
@@ -72,7 +46,7 @@ function NewHobby() {
       });
 
       // Navigate back to dashboard after successful save
-      navigate("/dashboard");
+      navigate("/home");
     } catch (err) {
       console.error("Error saving hobby:", err);
       setGeminiError("Failed to save hobby. Please try again.");
@@ -139,14 +113,6 @@ function NewHobby() {
               "Content-Type": "application/json",
             },
           });
-          // Update cached hobbies state
-          setCachedGeminiHobbies((prevCachedHobbies) => {
-            const trimmed =
-              prevCachedHobbies.length >= 3
-                ? prevCachedHobbies.slice(1)
-                : prevCachedHobbies;
-            return [...trimmed, payload];
-          });
         } catch (parseError) {
           console.error("Failed to parse Gemini JSON response:", parseError);
           setGeminiError("Received an invalid format from Gemini suggestion.");
@@ -178,32 +144,10 @@ function NewHobby() {
   return (
     <div className="flex">
       <SideNav />
-      <div className="ml-64 flex-1 p-8">
+      <div className="md:ml-64 flex-1 p-8 pb-20 md:pb-8">
         <header className="mb-6">
           <h1 className="font-bold text-2xl text-stone-800">Add New Hobby</h1>
         </header>
-
-        <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">
-            Most Recent AI Suggestions
-          </h2>
-          {cachedGeminiHobbies.length === 0 ? (
-            <p className="text-gray-600">No recent AI suggestions yet.</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {cachedGeminiHobbies.map((hobby) => (
-                <HobbyCard key={hobby.id} hobby={hobby}>
-                  <button
-                    onClick={() => handleSaveHobby(hobby)}
-                    className="bg-emerald-400 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Save to My Hobbies
-                  </button>
-                </HobbyCard>
-              ))}
-            </div>
-          )}
-        </section>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
