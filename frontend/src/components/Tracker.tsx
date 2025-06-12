@@ -136,7 +136,7 @@ function Tracker() {
   return (
     <div className="flex">
       <SideNav />
-      <div className="ml-64 flex-1 p-8">
+      <div className="md:ml-64 flex-1 p-8 pb-20 md:pb-8">
         <header className="mb-6">
           <h1 className="font-bold text-2xl text-stone-800">Hobby Tracker</h1>
         </header>
