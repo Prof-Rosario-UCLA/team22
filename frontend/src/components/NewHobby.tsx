@@ -21,6 +21,7 @@ function NewHobby() {
     useState<GeminiHobbySuggestion | null>(null);
   const [geminiError, setGeminiError] = useState<string | null>(null);
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
+  const [showGeminiCard, setShowGeminiCard] = useState(false);
 
   const handleSaveHobby = async (newHobby: HobbySchema) => {
     if (!token) {
@@ -94,6 +95,7 @@ function NewHobby() {
         try {
           const parsedHobby = JSON.parse(cleanJsonString);
           setGeminiResponse(parsedHobby as GeminiHobbySuggestion);
+          setShowGeminiCard(true);
 
           // Cache recommended hobby
           const payload: HobbySchema = {
@@ -119,6 +121,7 @@ function NewHobby() {
         }
       } else if (responseData) {
         setGeminiResponse(rawGeminiString as GeminiHobbySuggestion);
+        setShowGeminiCard(true);
       } else {
         setGeminiError("Received no valid data from Gemini route.");
       }
@@ -175,16 +178,6 @@ function NewHobby() {
             </button>
           </div>
 
-          {geminiResponse && (
-            <div className="md:col-span-2 bg-white shadow-md rounded-lg p-4 border border-stone-200 space-y-2">
-              <h3 className="text-lg font-semibold mb-4">AI Recommendation</h3>
-              <GeminiHobbyCard
-                suggestion={geminiResponse}
-                saveHobby={handleSaveHobby}
-              />
-            </div>
-          )}
-
           {geminiError && (
             <div className="md:col-span-2 bg-red-50 p-4 rounded-lg shadow-md">
               <p className="text-red-600">{geminiError}</p>
@@ -196,6 +189,14 @@ function NewHobby() {
           <HobbyForm
             onClose={() => setShowHobbyForm(false)}
             onSave={handleSaveHobby}
+          />
+        )}
+
+        {showGeminiCard && geminiResponse && (
+          <GeminiHobbyCard
+            suggestion={geminiResponse}
+            saveHobby={handleSaveHobby}
+            onClose={() => setShowGeminiCard(false)}
           />
         )}
       </div>
