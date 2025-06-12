@@ -5,7 +5,6 @@ import { type HobbySchema } from "../schemas/hobby.types";
 import HobbyCard from "./HobbyCard";
 import SideNav from "./SideNav";
 import { useNavigate } from "react-router-dom";
-import HobbyAnalytics from "./HobbyAnalytics";
 
 function HomeBoard() {
   const { token } = useAuth();
@@ -264,13 +263,6 @@ function HomeBoard() {
             </div>
           )}
         </section>
-
-        {/* Analytics Component */}
-        {!isLoadingHobbies && hobbies.length > 0 && (
-          <section className="mt-8">
-            <HobbyAnalytics hobbies={hobbies} />
-          </section>
-        )}
       </div>
     </div>
   );

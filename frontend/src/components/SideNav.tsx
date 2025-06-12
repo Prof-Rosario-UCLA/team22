@@ -95,9 +95,9 @@ function SideNav() {
         </div>
 
         <div className="mt-auto p-6">
-          <button
-            onClick={handleSignOut}
-            className="flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors w-full text-stone-600 hover:bg-red-50 hover:text-red-600"
+          <Link
+            to="/profile"
+            className="flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors w-full text-stone-600 hover:bg-stone-50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -107,12 +107,12 @@ function SideNav() {
             >
               <path
                 fillRule="evenodd"
-                d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v3a1 1 0 102 0V9z"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                 clipRule="evenodd"
               />
             </svg>
-            <span>Sign Out</span>
-          </button>
+            <span>Profile</span>
+          </Link>
         </div>
       </div>
 
@@ -134,10 +134,10 @@ function SideNav() {
               <span className="text-xs mt-1">{item.label}</span>
             </Link>
           ))}
-          <button
-            onClick={handleSignOut}
-            className="flex flex-col items-center justify-center w-full h-full text-stone-600 hover:text-red-600 transition-colors"
-            aria-label="Sign Out"
+          <Link
+            to="/profile"
+            className="flex flex-col items-center justify-center w-full h-full text-stone-600 hover:text-emerald-600 transition-colors"
+            aria-label="Profile"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -147,12 +147,12 @@ function SideNav() {
             >
               <path
                 fillRule="evenodd"
-                d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v3a1 1 0 102 0V9z"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                 clipRule="evenodd"
               />
             </svg>
-            <span className="text-xs mt-1">Sign Out</span>
-          </button>
+            <span className="text-xs mt-1">Profile</span>
+          </Link>
         </nav>
       </div>
     </>

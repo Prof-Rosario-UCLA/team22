@@ -6,6 +6,7 @@ import HomeBoard from "./components/HomeBoard";
 import NewHobby from "./components/NewHobby";
 import PrivateRoute from "./components/PrivateRoute";
 import Tracker from "./components/Tracker";
+import Profile from "./components/Profile";
 
 function App() {
   // Adding checking for authentiation state
@@ -48,6 +49,14 @@ function App() {
         element={
           <PrivateRoute>
             <Tracker />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <Profile />
           </PrivateRoute>
         }
       />
