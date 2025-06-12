@@ -26,9 +26,11 @@ export function DroppableColumn({
       <h3 id={headingId} className="text-lg font-bold mb-4">
         {title}
       </h3>
-      {hobbies.map((hobby) => (
-        <DraggableCard key={hobby.id} hobby={hobby} onDelete={onDelete} />
-      ))}
+      <div className="flex flex-col gap-4">
+        {hobbies.map((hobby) => (
+          <DraggableCard key={hobby.id} hobby={hobby} onDelete={onDelete} />
+        ))}
+      </div>
     </section>
   );
 }
