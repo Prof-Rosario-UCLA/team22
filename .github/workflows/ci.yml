@@ -62,9 +62,6 @@ jobs:
         with:
           version: "3.1.55"
 
-      - name: Debug EMSDK Path
-        run: echo "The detected EMSDK path is: ${{ steps.emsdk-setup.outputs.emsdk-path }}"
-
       - name: Install Frontend Dependencies
         run: npm install
 
