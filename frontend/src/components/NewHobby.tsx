@@ -148,7 +148,7 @@ function NewHobby() {
     <div className="flex">
       <SideNav />
       <div className="md:ml-64 flex-1 p-8 pb-20 md:pb-8">
-        <header className="mb-6">
+        <header className="sticky top-0 bg-white z-10 mb-6 py-4">
           <h1 className="font-bold text-2xl text-stone-800">Add New Hobby</h1>
         </header>
 
