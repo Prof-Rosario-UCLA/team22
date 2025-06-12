@@ -72,7 +72,7 @@ function SideNav() {
   return (
     <>
       {/* Side Navigation - Hidden on small screens */}
-      <div className="hidden md:flex fixed left-0 top-0 h-screen w-64 bg-white shadow-lg border-r border-stone-200 flex-col">
+      <div className="hidden md:flex fixed left-0 top-0 h-screen w-64 bg-white shadow-lg border-r border-stone-200 flex-col z-50">
         <div className="p-6">
           <h1 className="text-2xl font-bold text-stone-800 mb-8">HobbyQuest</h1>
 
@@ -117,7 +117,7 @@ function SideNav() {
       </div>
 
       {/* Bottom Navigation - Visible only on small screens */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 shadow-lg">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 shadow-lg z-50">
         <nav className="flex justify-around items-center h-16">
           {navItems.map((item) => (
             <Link
